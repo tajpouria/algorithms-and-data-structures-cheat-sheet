@@ -391,7 +391,7 @@ divide an conquer:
 
 binarySearch
 
-O Log(n)
+O (Log n)
 
 ```typescript
 function binarySearch(sortedArr: number[], value: number): number {
@@ -504,6 +504,77 @@ function collectOdd(arr: number[]): number[] {
 }
 ```
 
+## Searching Algorithms
+
+### linear search
+
+_indexOf() includes() find() findIndex()_ all this methods doing linear search behind the scene
+
+O(n)
+
+```typescript
+function linearSearch(arr: number[], value: number): number {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === value) {
+            return i;
+        }
+        return -1;
+    }
+}
+```
+
+### binary search
+
+O(Log n)
+
+```typescript
+function binarySearch(sortedArr: number[], value: number): number {
+    let left = 0;
+    let right = sortedArr.length - 1;
+
+    while (left <= right) {
+        const middle = Math.round((right + left) / 2);
+
+        if (sortedArr[middle] > value) {
+            right = middle - 1;
+        } else if (sortedArr[middle] < value) {
+            left = middle + 1;
+        } else {
+            return middle;
+        }
+    }
+    return -1;
+}
+```
+
+### naive string search
+
+O(n^2)
+
+```typescript
+function naiveStringSearch(long: string, pattern: string): number {
+    let count = 0;
+
+    for (let i = 0; i < long.length; i++) {
+        for (let j = 0; j < pattern.length; j++) {
+            if (pattern[j] !== long[i + j]) {
+                break;
+            }
+            if (j === pattern.length - 1) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+```
+
+### KMP string search
+
+```typescript
+```
+
 ## Interesting Stuff
 
 ### string pattern matching
@@ -569,4 +640,12 @@ function same(arrOne: number[], arrTwo: number[]): boolean {
     }
     return true;
 }
+```
+
+### array.find() and array.findIndex()
+
+```typescript
+const array = ["hello", "world"];
+arr.find(el => el === "world"); // world
+arr.findIndex(el => el === "world"); // 1
 ```
