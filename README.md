@@ -412,7 +412,99 @@ function binarySearch(sortedArr: number[], value: number): number {
 }
 ```
 
-## Some Interesting Stuff
+## Recursion
+
+a process that calls itself
+
+quick note around callStack
+
+```typescript
+function wakeUp() {
+    // callStack [wakeUp]
+    takeShower();
+    eatBreakfast();
+    console.log("Ready to go ... ");
+} // callStack []
+
+function takeShower() {
+    // callStack [takeShower, wakeUp]
+    console.log("taking shower");
+} // callStack[wakeUp]
+
+function eatBreakfast() {
+    // callStack [eatBreakfast, wakeUp]
+    const meal = cookBreakFast();
+    console.log(`eating ${meal}`);
+} // callStack [wakeUp]
+
+function cookBreakFast() {
+    // callStack [cookBreakFast, eatBreakfast, wakeUp]
+    const meals = ["Cheese", "Protein Shake", "Coffee"];
+    return meals[Math.floor(Math.random() * meals.length)]; // callStack [eatBreakFast, wakeUp]
+}
+
+wakeUp();
+```
+
+two essential part of recursive functions
+
+-   base case : end of the line
+-   different input : recursive should call by different piece of data
+
+```typescript
+function sumRange(num: number) {
+    if (num === 1) return 1;
+    return num + sumRange(num - 1);
+}
+
+function factorial(num: number) {
+    if (num === 1) return 1;
+    return num * factorial(num - 1);
+}
+```
+
+helper method recursion vs pure recursion
+
+```typescript
+// helper method recursion approach
+function collectOdd(arr: number[]) {
+    const result = [];
+
+    function helper(helperArr: number[]) {
+        if (!helperArr.length) {
+            return;
+        }
+
+        if (helperArr[0] % 2 !== 0) {
+            result.push(helperArr[0]);
+        }
+
+        helper(helperArr.slice(1));
+    }
+
+    helper(arr);
+
+    return result;
+}
+
+// pure recursion approach
+function collectOdd(arr: number[]): number[] {
+    let result = [];
+
+    if (!arr.length) {
+        return result;
+    }
+
+    if (arr[0] % 2 !== 0) {
+        result.push(arr[0]);
+    }
+
+    result = collectOdd(result.concat(arr.slice(1)));
+    return result;
+}
+```
+
+## Interesting Stuff
 
 ### string pattern matching
 

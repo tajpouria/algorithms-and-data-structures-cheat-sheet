@@ -1,16 +1,14 @@
-function binarySearch(sortedArr: number[], value: number): number {
-    let min = 0;
-    let max = sortedArr.length - 1;
+function collectOdd(arr: number[]): number[] {
+    let result = [];
 
-    while (min <= max) {
-        let middle = Math.floor((min + max) / 2);
-        if (sortedArr[middle] < value) {
-            min = middle + 1;
-        } else if (sortedArr[middle] > value) {
-            max = middle - 1;
-        } else {
-            return middle;
-        }
+    if (!arr.length) {
+        return result;
     }
-    return -1;
+
+    if (arr[0] % 2 !== 0) {
+        result.push(arr[0]);
+    }
+
+    result = collectOdd(result.concat(arr.slice(1)));
+    return result;
 }
