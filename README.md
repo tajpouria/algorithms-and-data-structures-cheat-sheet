@@ -689,12 +689,147 @@ function insertionSort(arr) {
 ### quadric sorting algorithms comparison
 
 |   Algorithm    | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (worst) | Space Complexity |
-| :------------: | :--------------------: | :-----------------------: | ----------------------- | ---------------- |
-|  bubble sort   |          O(n)          |          O(n^2)           | O(n^2)                  | O(1)             |
-| insertion sort |          O(n)          |          O(n^2)           | O(n^2)                  | O(1)             |
-| selection sort |         O(n^2)         |          O(n^2)           | O(n^2)                  | O(1)             |
+| :------------: | :--------------------: | :-----------------------: | :---------------------: | :--------------: |
+|  bubble sort   |          O(n)          |          O(n^2)           |         O(n^2)          |       O(1)       |
+| insertion sort |          O(n)          |          O(n^2)           |         O(n^2)          |       O(1)       |
+| selection sort |         O(n^2)         |          O(n^2)           |         O(n^2)          |       O(1)       |
 
 ## Fancy
+
+### merge sort
+
+![](./assets/Merge-sort-example-300px.gif)
+
+O(n Log n)
+
+```typescript
+// merge two sorted array
+function merge(arr1: number[], arr2: number[]): number[] {
+    let result = [];
+    let i = 0;
+    let j = 0;
+
+    while (i < arr1.length && j < arr2.length) {
+        if (arr1[i] < arr2[j]) {
+            result.push(arr1[i]);
+            i++;
+        } else {
+            result.push(arr2[j]);
+            j++;
+        }
+    }
+
+    while (i < arr1.length) {
+        result.push(arr1[i]);
+        i++;
+    }
+    while (j < arr2.length) {
+        result.push(arr2[j]);
+        j++;
+    }
+
+    return result;
+}
+
+function mergeSort(arr: number[]): number[] {
+    if (arr.length <= 1) return arr;
+
+    const middle = Math.floor(arr.length / 2);
+
+    const left = mergeSort(arr.slice(0, middle));
+    const right = mergeSort(arr.slice(middle));
+
+    return merge(left, right);
+}
+```
+
+### quick sort
+
+![](./assets/Quicksort.gif)
+
+in following implementation we always assume _first item_ as pivot
+
+general: O(n Log n)
+sorted: O(n^2)
+
+```typescript
+// place pivot in the right index and return pivot index
+function pivot(arr: number[], start = 0, end = arr.length - 1) {
+    const pivot = arr[start];
+    let pivotIndex = start;
+
+    for (let i = start + 1; i < end; i++) {
+        if (arr[i] < pivot) {
+            pivotIndex++;
+            [arr[pivotIndex], arr[i]] = [arr[i], arr[pivotIndex]];
+        }
+    }
+    [arr[start], arr[pivotIndex]] = [arr[pivotIndex], arr[start]];
+}
+
+function quickSort(arr: number[], start = 0, end = arr.length - 1) {
+    if (left < right) {
+        const pivot = pivot(arr, start, end);
+
+        // left
+        quickSort(arr, start, pivotIndex - 1);
+        // right
+        quickSort(arr, pivotIndex + 1, end);
+    }
+
+    return arr;
+}
+```
+
+### radix sort
+
+![](./assets/3C7DDB59DF2D21B287E42A7B908409CB.gif)
+
+O(nk)
+n: the number of items we sorting
+k: average length of those numbers
+
+```typescript
+// get the actual number at the given index
+function getDigit(num: number, i: number): number {
+    return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10;
+}
+// get number length
+function digitCount(num: number): number {
+    if (num === 0) return 1;
+    return Math.floor(Math.log10(Math.abs(num))) + 1;
+}
+
+// return number by most length
+function mostDigits(arr: number[]): number {
+    let maxDigits = 0;
+    for (let i = 0; i < arr.length; i++) {
+        maxDigits = Math.max(maxDigits, digitCount(arr[i]));
+    }
+    return maxDigits;
+}
+
+function radixSort(arr: number[]): number[] {
+    let maxDigitCount = mostDigits(arr);
+    for (let k = 0; k < maxDigitCount; k++) {
+        let digitBuckets = Array.from({ length: 10 }, () => []);
+        for (let j = 0; j < arr.length; j++) {
+            digitBuckets[getDigit(arr[j], k)].push(arr[j]);
+        }
+
+        arr = [].concat(...digitBuckets);
+    }
+    return arr;
+}
+```
+
+### fancy sorting algorithms comparison
+
+| Algorithm  | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (worst) | Space Complexity |
+| :--------: | :--------------------: | :-----------------------: | :---------------------: | :--------------: |
+| merge sort |       O(n Log n)       |        O(n Log n)         |       O(n Log n)        |       O(n)       |
+| quick sort |       O(n Log n)       |        O(n Log n)         |         O(n^2)          |     O(Log n)     |
+| radix sort |         O(nk)          |           O(nk)           |          O(nk)          |     O(n + k)     |
 
 ## Interesting Stuff
 
@@ -777,4 +912,20 @@ function same(arrOne: number[], arrTwo: number[]): boolean {
 const array = ["hello", "world"];
 arr.find(el => el === "world"); // world
 arr.findIndex(el => el === "world"); // 1
+```
+
+# Array.from()
+
+```typescript
+Array.from({ length: 2 }, () => ["lol"]); // [["lol"], ["lol"]]
+```
+
+### Math.pow() Math.abs() Math.log10()
+
+```typescript
+Math.pow(2, 2); // 4
+Math.abs(-5); // 5
+Math.log10(100); // 10
+Math.max(...[1, 2, 3]); // 3
+Math.min(...[1, 2, 3]); // 1
 ```
