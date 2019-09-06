@@ -573,7 +573,128 @@ function naiveStringSearch(long: string, pattern: string): number {
 ### KMP string search
 
 ```typescript
+// TODO: add KMP string searching related stuff
 ```
+
+## Sorting Algorithms
+
+### array.sort()
+
+array.sort(cb?) will turn all values to _string_ then sort it based on it's _unicode_
+
+```typescript
+["a", "c", "b", "f", "d"].sort(); // (5) ["a", "b", "c", "d", "f"]
+[1, 10, 6, 8, 2, 3, 5].sort(); //(7) [1, 10, 2, 3, 5, 6, 8]
+
+/* 
+also receive callback function by two arguments:
+    a: previous number 
+    b: next number 
+
+*/
+// if callback return NEGATIVE number a will placed before b
+[1, 10, 6, 8, 2, 3, 5].sort((a, b) => a - b); // (7) [1, 2, 3, 5, 6, 8, 10]
+
+// if callback return POSITIVE number a will placed after b
+(7)[(1, 2, 3, 5, 6, 8, 10)].sort((a, b) => b - a); // (7) [10, 8, 6, 5, 3, 2, 1]
+
+// if callback return ZERO a and b will placed at the same position
+```
+
+## Quadric
+
+### bubble sort
+
+![](./assets/Sorting_bubblesort_anim.gif)
+
+general: O(n^2)
+nearlySortedData: O(n)
+
+```typescript
+function bubbleSort(arr: number[]): number[] {
+    for (let i = 0; i < arr.length; i++) {
+        let noSwap = true;
+        for (let j = 0; j < arr.length - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                noSwap = false;
+            }
+        }
+        if (noSwap) break;
+    }
+    return arr;
+}
+
+// or
+
+function bubbleSort(arr: number[]): number[] {
+    for (let i = arr.length; i > 0; i--) {
+        let noSwap = true;
+        for (let j = 0; j < i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                noSwap = false;
+            }
+        }
+        if (noSwap) break;
+    }
+    return arr;
+}
+```
+
+### selection sort
+
+![](./assets/Selection-Sort-Animation.gif)
+
+O(n^2)
+
+```typescript
+function selectionSort(arr: number[]) {
+    for (let i = 0; i < arr.length; i++) {
+        let min = i;
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[min]) {
+                min = j;
+            }
+        }
+        if (min !== i) {
+            [arr[i], arr[min]] = [arr[min], arr[i]];
+        }
+    }
+    return arr;
+}
+```
+
+### insertion sort
+
+![](./assets/Insertion-sort-example-300px.gif)
+
+general: O(n^2)
+nearlySortedData: O(n)
+
+```typescript
+function insertionSort(arr) {
+    var currentVal;
+    for (let i = 1; i < arr.length; i++) {
+        currentVal = arr[i];
+        for (var j = i - 1; j >= 0 && arr[j] > currentVal; j--) {
+            arr[j + 1] = arr[j];
+        }
+        arr[j + 1] = currentVal;
+    }
+    return arr;
+}
+```
+
+### quadric sorting algorithms comparison
+
+|   Algorithm    | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (worst) | Space Complexity |
+| :------------: | :--------------------: | :-----------------------: | ----------------------- | ---------------- |
+|  bubble sort   |          O(n)          |          O(n^2)           | O(n^2)                  | O(1)             |
+| insertion sort |          O(n)          |          O(n^2)           | O(n^2)                  | O(1)             |
+| selection sort |         O(n^2)         |          O(n^2)           | O(n^2)                  | O(1)             |
+
+## Fancy
 
 ## Interesting Stuff
 
@@ -625,6 +746,14 @@ function isAlphaNumeric(char: string) {
     }
     return true;
 }
+```
+
+### string.search() and string.indexOf() and string.includes()
+
+```typescript
+const str = "hello";
+str.search('lo') || .indexOf('lo')
+str.includes('lo') // true
 ```
 
 ### array.includes()
