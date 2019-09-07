@@ -1,12 +1,15 @@
 class _Node {
-    constructor(public value: any) {}
     public next: _Node | null = null;
+    public prev: _Node | null = null;
+
+    constructor(public value: any) {}
 }
 
-class SinglyLinkedList {
-    private _length: number = 0;
+class DoublyLinkedList {
     private head: _Node | null = null;
     private tail: _Node | null = null;
+
+    private _length = 0;
 
     get length() {
         return this._length;
@@ -24,76 +27,100 @@ class SinglyLinkedList {
         return arr;
     }
 
-    public push(value: any): SinglyLinkedList {
+    public push(value: any): DoublyLinkedList {
         const node = new _Node(value);
 
-        if (!this.head || !this.tail) {
+        if (!this.tail) {
             this.head = node;
-            this.tail = this.head;
         } else {
             this.tail.next = node;
-            this.tail = node;
+            node.prev = this.tail;
         }
         this._length += 1;
+        this.tail = node;
 
         return this;
     }
 
     public pop(): _Node | null {
-        if (!this.head) return null;
+        if (!this.tail) {
+            return null;
+        }
 
-        let currentNode = this.head;
-
-        if (!currentNode.next) {
+        const currentTail = this.tail;
+        if (currentTail.prev) {
+            this.tail = currentTail.prev;
+            this.tail.next = null;
+            currentTail.prev = null;
+        } else {
             this.head = null;
             this.tail = null;
-            this._length -= 1;
-            return currentNode;
         }
-        while (currentNode.next && currentNode.next.next) {
-            currentNode = currentNode.next;
-        }
-        this.tail = currentNode;
-        this.tail.next = null;
+
         this._length -= 1;
-        return currentNode.next as _Node;
+        return currentTail;
     }
 
-    public unShift(value: any): SinglyLinkedList {
+    public shift(): null | _Node {
+        if (!this.head) {
+            return null;
+        }
+
+        const currentHead = this.head;
+        if (currentHead.next) {
+            this.head = currentHead.next;
+            this.head.prev = null;
+            currentHead.next = null;
+        } else {
+            return this.pop();
+        }
+
+        this._length -= 1;
+        return currentHead;
+    }
+
+    public unshift(value: any): DoublyLinkedList {
+        if (!this.head) {
+            return this.push(value);
+        }
+
+        const node = new _Node(value);
         const currentHead = this.head;
 
-        this.head = new _Node(value);
+        this.head = node;
+        this.head.next = currentHead;
+        currentHead.prev = this.head;
 
-        if (currentHead) {
-            this.head.next = currentHead;
-        } else {
-            this.tail = this.head;
-        }
         this._length += 1;
         return this;
     }
 
-    public shift(): _Node | null {
-        if (!this.head) return null;
-
-        const currentHead = this.head;
-        this.head = currentHead.next;
-        this._length -= 1;
-
-        if (currentHead === this.tail) this.tail = null;
-
-        return currentHead;
-    }
-
-    public get(index: number): _Node | null {
+    public get(index: number): null | _Node {
         if (index < 0 || index >= this._length) return null;
 
-        let currentNode = this.head;
-        for (let j = 0; j < index; j++) {
-            if (currentNode && currentNode.next) {
-                currentNode = currentNode.next;
+        let currentNode: _Node | null = null;
+
+        if (index < Math.floor(this._length / 2)) {
+            // iterate from head to tail
+
+            currentNode = this.head;
+            for (let i = 0; i < index; i++) {
+                if (currentNode && currentNode.next) {
+                    currentNode = currentNode.next;
+                }
+            }
+        } else {
+            // iterate from tail to head
+
+            currentNode = this.tail;
+            for (let i = this._length - 1; i > index; i--) {
+                if (currentNode && currentNode.prev) {
+                    currentNode = currentNode.prev;
+                }
+                return currentNode;
             }
         }
+
         return currentNode;
     }
 
@@ -105,59 +132,46 @@ class SinglyLinkedList {
         return node;
     }
 
-    public insert(index: number, value: any): SinglyLinkedList | null {
-        if (index === 0) {
-            return this.unShift(value);
+    public insert(index: number, value: any): DoublyLinkedList | null {
+        if (index < 0 || index > this._length) {
+            return null;
+        } else if (index === 0) {
+            return this.unshift(value);
         } else if (index === this._length) {
             return this.push(value);
         } else {
             const prevNode = this.get(index - 1);
+            const nextNode = this.get(index);
 
-            if (prevNode) {
+            if (prevNode && nextNode) {
                 const newNode = new _Node(value);
-                newNode.next = prevNode.next;
+
                 prevNode.next = newNode;
-                this._length += 1;
-
-                return this;
+                (newNode.prev = prevNode), (newNode.next = nextNode);
+                nextNode.prev = newNode;
             }
-            return prevNode;
         }
+        this._length += 1;
+        return this;
     }
 
-    public remove(index: number): _Node | null {
-        if (index === 0) {
-            return this.shift();
+    public remove(index: number): DoublyLinkedList | null {
+        if (index < 0 || index > this._length) {
+            return null;
+        } else if (index === 0) {
+            this.shift();
         } else if (index === this._length - 1) {
-            return this.pop();
+            this.pop();
         } else {
-            const prevNode = this.get(index - 1);
-            const currentNode = this.get(index);
-            if (prevNode && currentNode) {
-                prevNode.next = currentNode.next;
-                this._length -= 1;
+            const node = this.get(index);
+
+            if (node && node.prev && node.next) {
+                (node.prev.next = node.next), (node.next.prev = node.prev);
+                (node.next = null), (node.prev = null);
             }
-            return currentNode;
-        }
-    }
-
-    public reverse(): SinglyLinkedList | false {
-        if (this._length <= 1) return false;
-
-        let node = this.head;
-        this.head = this.tail;
-        this.tail = node;
-
-        let next: _Node | null;
-        let prev: _Node | null = null;
-        for (let i = 0; i < this._length; i++) {
-            if (node) {
-                next = node.next;
-                node.next = prev;
-                prev = node;
-                node = next;
-            }
+            this._length -= 1;
         }
         return this;
     }
 }
+
