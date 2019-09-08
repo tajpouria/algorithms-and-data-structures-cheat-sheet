@@ -808,7 +808,6 @@ function mostDigits(arr: number[]): number {
     }
     return maxDigits;
 }
-
 function radixSort(arr: number[]): number[] {
     let maxDigitCount = mostDigits(arr);
     for (let k = 0; k < maxDigitCount; k++) {
@@ -839,6 +838,8 @@ function radixSort(arr: number[]): number[] {
 | :----------------: | :-------: | :------------------------------------------------------: | :---------------------------------------: | :----: |
 | Singly Linked List |   O(1)    | bestCase(very beginning): O(1) worstCase(very end): O(n) |                   O(n)                    |  O(n)  |
 | Doubly Linked List |   O(1)    |                           O(1)                           | O(n) it is faster than Singly Linked List |  O(n)  |
+|       Stack        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
+|       Queue        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
 
 ## Singly Linked list
 
@@ -1187,6 +1188,124 @@ class DoublyLinkedList {
             this._length -= 1;
         }
         return this;
+    }
+}
+```
+
+## Stacks
+
+LIFO
+last in first out
+
+```typescript
+// implement stack using array
+const stack = [1, 2, 3];
+stack.push(4); // [1,2,3,4]
+stack.pop(); // [1,2,3]
+// stacks just have push and pop
+stack.unshift(0); // [0,1,2,3]
+stack.shift(); // [1,2,3]
+```
+
+```typescript
+// implementing stack using singly linked list
+class _Node {
+    public next: _Node | null = null;
+
+    constructor(public value: any) {}
+}
+
+class Stack {
+    private first: _Node | null = null;
+    private last: _Node | null = null;
+
+    private _length = 0;
+    get length(): number {
+        return this._length;
+    }
+
+    push(value: any): Stack {
+        const node = new _Node(value);
+        const currentFirst = this.first;
+
+        (this.first = node), (this.first.next = currentFirst);
+
+        if (!currentFirst) {
+            this.last = node;
+        }
+
+        this._length += 1;
+        return this;
+    }
+
+    pop(): _Node | null {
+        const currentFirst = this.first;
+        if (currentFirst) {
+            if (this.first === this.last) this.last = currentFirst.next;
+            this.first = currentFirst.next;
+            this._length -= 1;
+        }
+        return currentFirst;
+    }
+}
+```
+
+## Queue
+
+FIFO
+first in first out
+
+```typescript
+// implementing queue using array
+const q = [];
+q.push(1);
+q.push(2);
+q.shift(1); // out first items first
+// or
+q.shift(1);
+q.shift(2);
+q.pop(); // out first items first
+```
+
+```typescript
+// implementing queue using singly linked list
+class _Node {
+    public next: _Node | null = null;
+
+    constructor(public value: any) {}
+}
+
+class Queue {
+    private first: _Node | null = null;
+    private last: _Node | null = null;
+
+    private _length = 0;
+    get length(): number {
+        return this._length;
+    }
+
+    enqueue(value: any): Queue {
+        const node = new _Node(value);
+        if (!this.last) {
+            (this.first = node), (this.last = node);
+        } else {
+            this.last.next = node;
+            this.last = node;
+        }
+
+        this._length += 1;
+        return this;
+    }
+
+    dequeue(): _Node | null {
+        const currentFirst = this.first;
+        if (currentFirst) {
+            if (this.first === this.last) this.last = null;
+            this.first = currentFirst.next;
+            this._length -= 1;
+        }
+
+        return currentFirst;
     }
 }
 ```
