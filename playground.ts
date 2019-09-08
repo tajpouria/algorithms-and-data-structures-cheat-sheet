@@ -1,39 +1,62 @@
 class _Node {
-    public next: _Node | null = null;
+    constructor(public value: number) {}
 
-    constructor(public value: any) {}
+    public left: _Node | null = null;
+    public right: _Node | null = null;
 }
+class BinarySearchTree {
+    public root: _Node | null = null;
 
-class Queue {
-    private first: _Node | null = null;
-    private last: _Node | null = null;
-
-    private _length = 0;
-    get length(): number {
-        return this._length;
-    }
-
-    enqueue(value: any): Queue {
+    public insert(value: number): BinarySearchTree | null {
         const node = new _Node(value);
-        if (!this.last) {
-            (this.first = node), (this.last = node);
+        if (!this.root) {
+            this.root = node;
         } else {
-            this.last.next = node;
-            this.last = node;
-        }
+            let currentNode: _Node = this.root;
+            do {
+                if (value === currentNode.value) return null;
 
-        this._length += 1;
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                    } else {
+                        currentNode.left = node;
+                        break;
+                    }
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                    } else {
+                        currentNode.right = node;
+                        break;
+                    }
+                }
+            } while (currentNode);
+        }
         return this;
     }
 
-    dequeue(): _Node | null {
-        const currentFirst = this.first;
-        if (currentFirst) {
-            if (this.first === this.last) this.last = null;
-            this.first = currentFirst.next;
-            this._length -= 1;
+    public have(value: number): boolean {
+        let currentNode = this.root;
+        while (currentNode) {
+            if (value === currentNode.value) {
+                return true;
+            } else {
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                        continue;
+                    }
+                    break;
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                        continue;
+                    }
+                    break;
+                }
+            }
         }
-
-        return currentFirst;
+        return false;
     }
 }

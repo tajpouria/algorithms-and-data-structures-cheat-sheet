@@ -840,6 +840,7 @@ function radixSort(arr: number[]): number[] {
 | Doubly Linked List |   O(1)    |                           O(1)                           | O(n) it is faster than Singly Linked List |  O(n)  |
 |       Stack        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
 |       Queue        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
+| Binary Search Tree | O( Log n) |                                                          |                 O(Log n)                  |        |
 
 ## Singly Linked list
 
@@ -1306,6 +1307,88 @@ class Queue {
         }
 
         return currentFirst;
+    }
+}
+```
+
+## Tree
+
+### terminology
+
+-   root : top node of tree
+-   child : a node directly connected to another node when moving away from root
+-   parent : the converse notion of a child
+-   sibling : a group of nodes with the same parent
+-   leaf : a child with no children
+-   edge : connection from two node
+
+### binary search tree
+
+-   every parent node has at most **two** children
+-   every node to the **left** of parent node is always **less** than the **parent**
+-   every node to the **right** of parent node is always **greater** than the **parent**
+
+```typescript
+class _Node {
+    constructor(public value: number) {}
+
+    public left: _Node | null = null;
+    public right: _Node | null = null;
+}
+class BinarySearchTree {
+    public root: _Node | null = null;
+
+    public insert(value: number): BinarySearchTree | null {
+        const node = new _Node(value);
+        if (!this.root) {
+            this.root = node;
+        } else {
+            let currentNode: _Node = this.root;
+            do {
+                if (value === currentNode.value) return null;
+
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                    } else {
+                        currentNode.left = node;
+                        break;
+                    }
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                    } else {
+                        currentNode.right = node;
+                        break;
+                    }
+                }
+            } while (currentNode);
+        }
+        return this;
+    }
+
+    public have(value: number): boolean {
+        let currentNode = this.root;
+        while (currentNode) {
+            if (value === currentNode.value) {
+                return true;
+            } else {
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                        continue;
+                    }
+                    break;
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
     }
 }
 ```
