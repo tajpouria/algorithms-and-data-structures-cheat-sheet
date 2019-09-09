@@ -45,7 +45,6 @@ class BinarySearchTree {
                 if (value < currentNode.value) {
                     if (currentNode.left) {
                         currentNode = currentNode.left;
-                        continue;
                     }
                     break;
                 } else {
@@ -59,4 +58,19 @@ class BinarySearchTree {
         }
         return false;
     }
+
+    public breadthFirstSearch(): _Node[] {
+        const visited: _Node[] = [];
+        if (this.root) {
+            const q: _Node[] = [this.root];
+            while (q.length) {
+                if (q[0].left) q.push(q[0].left);
+                if (q[0].right) q.push(q[0].right);
+
+                visited.push(q[0]), q.shift();
+            }
+        }
+        return visited;
+    }
+
 }

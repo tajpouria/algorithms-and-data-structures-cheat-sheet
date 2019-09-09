@@ -1393,6 +1393,170 @@ class BinarySearchTree {
 }
 ```
 
+### tree traversal
+
+there is two main strategies to traversal a tree : **Breadth-first-search** and **Depth-first-search**
+
+```typescript
+class _Node {
+    constructor(public value: number) {}
+
+    public left: _Node | null = null;
+    public right: _Node | null = null;
+}
+class BinarySearchTree {
+    public root: _Node | null = null;
+
+    public insert(value: number): BinarySearchTree | null {
+        const node = new _Node(value);
+        if (!this.root) {
+            this.root = node;
+        } else {
+            let currentNode: _Node = this.root;
+            do {
+                if (value === currentNode.value) return null;
+
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                    } else {
+                        currentNode.left = node;
+                        break;
+                    }
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                    } else {
+                        currentNode.right = node;
+                        break;
+                    }
+                }
+            } while (currentNode);
+        }
+        return this;
+    }
+
+    public have(value: number): boolean {
+        let currentNode = this.root;
+        while (currentNode) {
+            if (value === currentNode.value) {
+                return true;
+            } else {
+                if (value < currentNode.value) {
+                    if (currentNode.left) {
+                        currentNode = currentNode.left;
+                    }
+                    break;
+                } else {
+                    if (currentNode.right) {
+                        currentNode = currentNode.right;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+    /* 
+    breadth first search (bfs) : traverse tree horizontally
+*/
+    public bfs(): _Node[] {
+        const visited: _Node[] = [];
+        if (this.root) {
+            const q: _Node[] = [this.root];
+            while (q.length) {
+                if (q[0].left) q.push(q[0].left);
+                if (q[0].right) q.push(q[0].right);
+
+                visited.push(q[0]), q.shift();
+            }
+        }
+        return visited;
+    }
+    /*
+    depth first search (dfs) : traverse tree vertically
+    following contains three dfs searching methods:
+    1. preOrder : add node => going to left and add left => going to right and add right 
+    2. postOrder : going to left and add left => going to right and add right => going to node and add node 
+    3. inOrder : going to the left and add left => add node => going to the right and add right
+     */
+    public dfsPreOrder(): _Node[] {
+        const visited: _Node[] = [];
+        if (this.root) {
+            (function traverse(node: _Node): void {
+                visited.push(node);
+
+                if (node.left) {
+                    traverse(node.left);
+                }
+                if (node.right) {
+                    traverse(node.right);
+                }
+            })(this.root);
+        }
+
+        return visited;
+    }
+
+    public dfsPostOrder(): _Node[] {
+        const visited: _Node[] = [];
+
+        if (this.root) {
+            (function traverse(node: _Node): void {
+                if (node.left) {
+                    traverse(node.left);
+                }
+                if (node.right) {
+                    traverse(node.right);
+                }
+
+                visited.push(node);
+            })(this.root);
+        }
+        return visited;
+    }
+
+    dfsInOrder(): _Node[] {
+        const visited: _Node[] = [];
+
+        if (this.root) {
+            (function traverse(node: _Node) {
+                if (node.left) {
+                    traverse(node.left);
+                }
+
+                visited.push(node);
+
+                if (node.right) {
+                    traverse(node.right);
+                }
+            })(this.root);
+        }
+
+        return visited;
+    }
+}
+```
+
+### traversal comparison
+
+**depth-first** _vs_ **breadth-first** : they both **timeComplexity is same** but **spaceComplexity is different** if we got **a wide tree** like this:
+
+![](./assets/Z20M5iE.png)
+
+**breadth-first take up more space.** cuz we adding more element to queue.
+
+if we got **a depth long tree** like this:
+
+![](./assets/Binary-search-tree-insertion-When-a-sequence-of-data-f1-3-4-6-5-7-9-8-2-g.png)
+
+**depth-first take up more space.**
+
+<hr/>
+
+**potentially use cases for dfs variants (_preOder postOrder inOrder_)**
+
 ## Interesting Stuff
 
 ```typescript
