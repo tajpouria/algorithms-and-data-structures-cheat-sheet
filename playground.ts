@@ -1,76 +1,105 @@
-class _Node {
-    constructor(public value: number) {}
+class MaxBinaryHeap {
+    private _values: number[] = [];
+    get values(): number[] {
+        return this._values;
+    }
 
-    public left: _Node | null = null;
-    public right: _Node | null = null;
-}
-class BinarySearchTree {
-    public root: _Node | null = null;
+    private sinkingUp(value: number): void {
+        let valueIndex = this._values.length - 1;
+        while (valueIndex > 0) {
+            const parentIndex = Math.floor((valueIndex - 1) / 2);
+            const parent = this._values[parentIndex];
 
-    public insert(value: number): BinarySearchTree | null {
-        const node = new _Node(value);
-        if (!this.root) {
-            this.root = node;
-        } else {
-            let currentNode: _Node = this.root;
-            do {
-                if (value === currentNode.value) return null;
+            if (value <= parent) break;
 
-                if (value < currentNode.value) {
-                    if (currentNode.left) {
-                        currentNode = currentNode.left;
-                    } else {
-                        currentNode.left = node;
-                        break;
-                    }
+            this._values[parentIndex] = value;
+            this._values[valueIndex] = parent;
+
+            valueIndex = parentIndex;
+        }
+    }
+    private sinkingDown(): void {
+        let targetIndex = 0;
+        while (true) {
+            let leftChildIndex = targetIndex * 2 + 1,
+                rightChildIndex = targetIndex * 2 + 2;
+
+            let target = this._values[targetIndex],
+                leftChild = this._values[leftChildIndex],
+                rightChild = this._values[rightChildIndex];
+
+            if (target < leftChild && target < rightChild) {
+                if (rightChild > leftChild) {
+                    [
+                        this._values[targetIndex],
+                        this._values[rightChildIndex]
+                    ] = [
+                        this._values[rightChildIndex],
+                        this._values[targetIndex]
+                    ];
+
+                    targetIndex = rightChildIndex;
                 } else {
-                    if (currentNode.right) {
-                        currentNode = currentNode.right;
-                    } else {
-                        currentNode.right = node;
-                        break;
-                    }
+                    [
+                        this._values[targetIndex],
+                        this._values[leftChildIndex]
+                    ] = [
+                        this._values[leftChildIndex],
+                        this._values[targetIndex]
+                    ];
+
+                    targetIndex = leftChildIndex;
                 }
-            } while (currentNode);
-        }
-        return this;
-    }
 
-    public have(value: number): boolean {
-        let currentNode = this.root;
-        while (currentNode) {
-            if (value === currentNode.value) {
-                return true;
-            } else {
-                if (value < currentNode.value) {
-                    if (currentNode.left) {
-                        currentNode = currentNode.left;
-                    }
-                    break;
-                } else {
-                    if (currentNode.right) {
-                        currentNode = currentNode.right;
-                        continue;
-                    }
-                    break;
-                }
+                continue;
+            } else if (rightChild >= target) {
+                [this._values[targetIndex], this._values[leftChildIndex]] = [
+                    this._values[leftChildIndex],
+                    this._values[targetIndex]
+                ];
+
+                targetIndex = leftChildIndex;
+
+                continue;
+            } else if (leftChild >= target) {
+                [this._values[targetIndex], this._values[rightChildIndex]] = [
+                    this._values[rightChildIndex],
+                    this._values[targetIndex]
+                ];
+
+                targetIndex = leftChildIndex;
+
+                continue;
             }
+
+            break;
         }
-        return false;
     }
 
-    public breadthFirstSearch(): _Node[] {
-        const visited: _Node[] = [];
-        if (this.root) {
-            const q: _Node[] = [this.root];
-            while (q.length) {
-                if (q[0].left) q.push(q[0].left);
-                if (q[0].right) q.push(q[0].right);
-
-                visited.push(q[0]), q.shift();
-            }
-        }
-        return visited;
+    public insert(value: number): number[] {
+        this._values.push(value);
+        this.sinkingUp(value);
+        return this._values;
     }
 
+    public extractMax(): number | null {
+        if (!this._values.length) {
+            return null;
+        }
+        const root = this._values[0];
+        this._values[0] = this._values[this._values.length - 1];
+        this._values.pop();
+        this.sinkingDown();
+
+        return root;
+    }
 }
+
+const heap = new MaxBinaryHeap();
+const arr = [1, 3, 5, 8, 4];
+
+arr.forEach((el: number) => heap.insert(el));
+
+heap.extractMax();
+
+console.log(heap.values);

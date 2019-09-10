@@ -1527,6 +1527,7 @@ class BinarySearchTree {
                 }
 
                 visited.push(node);
+                f;
 
                 if (node.right) {
                     traverse(node.right);
@@ -1556,6 +1557,128 @@ if we got **a depth long tree** like this:
 <hr/>
 
 **potentially use cases for dfs variants (_preOder postOrder inOrder_)**
+preOrder is useful when we want a clone of tree.
+inOrder is useful when we want data in order that it's stored in tree.
+
+## Binary heaps
+
+### terminology
+
+-   a binary heap is as compact as possible (all the children of each node are as full as they can be and left children and filled out first)
+-   each parent has at most two children
+
+**Max Binary Heap**:
+
+-   **parent** nodes are always greater than **child** nodes but there is no guarantees between sibling
+
+**Min Binary Heap**:
+
+-   **child** nodes are always greater than **parent** nodes but there is no guarantees between sibling
+
+### binary heap parent and child relations
+
+![](./assets/binaryHeapsParentAndChildRelation.jpg)
+
+```typescript
+class MaxBinaryHeap {
+    private _values: number[] = [];
+    get values(): number[] {
+        return this._values;
+    }
+
+    private sinkingUp(value: number): void {
+        let valueIndex = this._values.length - 1;
+        while (valueIndex > 0) {
+            const parentIndex = Math.floor((valueIndex - 1) / 2);
+            const parent = this._values[parentIndex];
+
+            if (value <= parent) break;
+
+            this._values[parentIndex] = value;
+            this._values[valueIndex] = parent;
+
+            valueIndex = parentIndex;
+        }
+    }
+    private sinkingDown(): void {
+        let targetIndex = 0;
+        while (true) {
+            let leftChildIndex = targetIndex * 2 + 1,
+                rightChildIndex = targetIndex * 2 + 2;
+
+            let target = this._values[targetIndex],
+                leftChild = this._values[leftChildIndex],
+                rightChild = this._values[rightChildIndex];
+
+            if (target < leftChild && target < rightChild) {
+                if (rightChild > leftChild) {
+                    [
+                        this._values[targetIndex],
+                        this._values[rightChildIndex]
+                    ] = [
+                        this._values[rightChildIndex],
+                        this._values[targetIndex]
+                    ];
+
+                    targetIndex = rightChildIndex;
+                } else {
+                    [
+                        this._values[targetIndex],
+                        this._values[leftChildIndex]
+                    ] = [
+                        this._values[leftChildIndex],
+                        this._values[targetIndex]
+                    ];
+
+                    targetIndex = leftChildIndex;
+                }
+
+                continue;
+            } else if (rightChild >= target) {
+                [this._values[targetIndex], this._values[leftChildIndex]] = [
+                    this._values[leftChildIndex],
+                    this._values[targetIndex]
+                ];
+
+                targetIndex = leftChildIndex;
+
+                continue;
+            } else if (leftChild >= target) {
+                [this._values[targetIndex], this._values[rightChildIndex]] = [
+                    this._values[rightChildIndex],
+                    this._values[targetIndex]
+                ];
+
+                targetIndex = leftChildIndex;
+
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    public insert(value: number): number[] {
+        this._values.push(value);
+        this.sinkingUp(value);
+        return this._values;
+    }
+
+    public extractMax(): number | null {
+        if (!this._values.length) {
+            return null;
+        }
+        const root = this._values[0];
+        this._values[0] = this._values[this._values.length - 1];
+        this._values.pop();
+        this.sinkingDown();
+
+        return root;
+    }
+}
+```
+
+## Priority Queue
 
 ## Interesting Stuff
 
