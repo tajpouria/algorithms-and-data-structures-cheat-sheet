@@ -1926,9 +1926,67 @@ A graph data structure consists of a finite (and possibly mutable) set of vertic
 
 <hr/>
 
-- **Adjacency List** take **less space** in sparse graph( when we have a few edges ).
-- **Adjacency List**  are **faster to iterate** over edges.
-- **Adjacency Matrix** are **faster to** finding a specific edge.
+-   **Adjacency List** take **less space** in sparse graph( when we have a few edges ).
+-   **Adjacency List** are **faster to iterate** over edges.
+-   **Adjacency Matrix** are **faster to** finding a specific edge.
+
+### graph(adjacency list)
+
+```typescript
+interface AdjacencyList {
+    [vertex: string]: string[];
+}
+
+class Graph {
+    private _adjacencyList: AdjacencyList = {};
+    public get adjacencyList(): AdjacencyList {
+        return this._adjacencyList;
+    }
+    public set adjacencyList(value: AdjacencyList) {
+        this._adjacencyList = value;
+    }
+
+    public addVertex(vertex: string): AdjacencyList {
+        this._adjacencyList[vertex] = [];
+        return this._adjacencyList;
+    }
+
+    public addEdge(vertex1: string, vertex2: string): boolean {
+        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
+            this._adjacencyList[vertex1].push(vertex2),
+                this._adjacencyList[vertex2].push(vertex1);
+
+            return true;
+        }
+        return false;
+    }
+
+    public removeEdge(vertex1: string, vertex2: string): boolean {
+        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
+            (this._adjacencyList[vertex1] = this._adjacencyList[vertex1].filter(
+                (value: string) => value !== vertex2
+            )),
+                (this._adjacencyList[vertex2] = this._adjacencyList[
+                    vertex2
+                ].filter((value: string) => value !== vertex1));
+            return true;
+        }
+        return false;
+    }
+
+    public removeVertex(vertex: string): string | undefined {
+        if (this._adjacencyList[vertex]) {
+            for (let key in this._adjacencyList) {
+                this.removeEdge(key, vertex);
+            }
+            delete this._adjacencyList[vertex];
+
+            return vertex;
+        }
+        return undefined;
+    }
+}
+```
 
 ## Interesting Stuff
 
@@ -2006,12 +2064,48 @@ const array = ["hello", "world"];
 arr.find(el => el === "world"); // world
 arr.findIndex(el => el === "world"); // 1
 [1, 2].includes(1); // true
+Array.from({ length: 2 }, () => ["lol"]); // [["lol"], ["lol"]]
 ```
 
-### Array.from()
+### Object
 
 ```typescript
-Array.from({ length: 2 }, () => ["lol"]); // [["lol"], ["lol"]]
+delete this._adjacencyList[vertex]; // delete key and value from object
+delete this._adjacencyList.vertex;
+```
+
+### Map
+
+```typescript
+const map = new Map();
+// store any type of **unique key** of use duplicate key it will override last value
+map.set({ 1: "Object" }, "Object");
+map.set(["arr"], "arr");
+map.set(1, "number");
+map.set(false, "boolean");
+map.set(() => console.log("Function"), "Function");
+
+console.log(map);
+/* 
+0: {Object => "Object"}
+1: {Array(1) => "arr"}
+2: {1 => "number"}
+3: {false => "boolean"}
+4: {function () { return console.log("Function"); } => "Function"}
+*/
+
+// iterable by **for (let [key, value] of map)**
+for (let [key, value] of map) console.log(key, value);
+
+// map to arr
+const arr = [...map]; // :[ [key, value] ]
+/* 
+0: (2) [{…}, "Object"]
+1: (2) [Array(1), "arr"]
+2: (2) [1, "number"]
+3: (2) [false, "boolean"]
+4: (2) [ƒ, "Function"]
+*/
 ```
 
 ## Math
