@@ -840,8 +840,9 @@ function radixSort(arr: number[]): number[] {
 | Doubly Linked List |   O(1)    |                           O(1)                           | O(n) it is faster than Singly Linked List |  O(n)  |
 |       Stack        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
 |       Queue        |   O(1)    |                           O(1)                           |                   O(n)                    |  O(n)  |
-| Binary Search Tree | O( Log n) |                                                          |                 O(Log n)                  |        |
-|    Binary Heap     | O( Log n) |                        O( Log n)                         |                  O( n )                   |        |
+| Binary Search Tree | O( Log n) |                            -                             |                 O(Log n)                  |   -    |
+|    Binary Heap     | O( Log n) |                        O( Log n)                         |                  O( n )                   |   -    |
+|    Hash Tables     |  O( 1 )   |                          O( 1 )                          |                     -                     | O( 1 ) |
 
 ## Singly Linked list
 
@@ -1796,6 +1797,89 @@ class PriorityQueue {
         this.sinkingDown();
 
         return root;
+    }
+}
+```
+
+## Hash Tables
+
+Hash tables are collection of key-value pairs
+
+### collisions
+
+There is possibility for handle collisions is hash tables :
+
+-   Separate chaining ( e.g. using nested arrays of key values _implemented in following hash tables_ )
+-   linear probing ( if index filled place {key, value} in next position )
+
+```typescript
+type El = [string, any];
+class HashTable {
+    private keyMap: El[][];
+    constructor(size: number = 53) {
+        this.keyMap = new Array(size);
+    }
+
+    public _hash(key: string): number {
+        let total = 0;
+        const WEIRD_PRIME = 31;
+
+        for (let i = 0; i < key.length; i++) {
+            const characterCode = key.charCodeAt(i) - 96;
+            total = (total + characterCode * WEIRD_PRIME) % this.keyMap.length;
+        }
+        return total;
+    }
+
+    set(key: string, value: any): El[][] {
+        const index = this._hash(key);
+        if (!this.keyMap[index]) {
+            this.keyMap[index] = [];
+        }
+
+        this.keyMap[index].push([key, value]);
+
+        return this.keyMap;
+    }
+
+    get(key: string): El | undefined {
+        const index = this._hash(key);
+
+        const elements = this.keyMap[index];
+
+        if (elements) {
+            for (let value of elements) {
+                if (value[0] === key) return value[1];
+            }
+        }
+
+        return undefined;
+    }
+
+    get keys(): string[] {
+        const keys: string[] = [];
+        for (let value of this.keyMap) {
+            if (value) {
+                for (let _value of value) {
+                    keys.push(_value[0]);
+                }
+            }
+        }
+        return keys;
+    }
+
+    get values(): any[] {
+        const values = new Set<any>();
+
+        for (let value of this.keyMap) {
+            if (value) {
+                for (let _value of value) {
+                    values.add(value[1]);
+                }
+            }
+        }
+
+        return [...values];
     }
 }
 ```
