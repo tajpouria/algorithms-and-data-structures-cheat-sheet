@@ -1884,6 +1884,52 @@ class HashTable {
 }
 ```
 
+## Graphs
+
+A graph data structure consists of a finite (and possibly mutable) set of vertices or nodes or points, together with a set of unordered pairs of these vertices for an undirected graph or a set of ordered pairs for directed graph.
+
+### terminology
+
+-   vertex :node
+
+-   edge : connection between nodes
+
+-   directed/ undirected graph:
+    in directed graph there is a direction assigned to vertices an in undirected no direction assigned.
+    ![](./assets/three-node-networks.jpg)
+
+-   weighted/ unweighted graph:
+    in weighted graph there is a weight associated by edges but in unweighted graph no weight assigned to edges
+    ![](./assets/3.-Weithened-Graph.png)
+
+### adjacency matrix
+
+![](./assets/GahiR.jpg)
+
+## adjacency list
+
+![](./assets/268857bd-bb32-4fa5-88c9-66d7787952e9.png)
+
+## adjacency list vs adjacency matrix
+
+|   Operation   | Adjacency List | Adjacency Matrix |
+| :-----------: | :------------: | :--------------: |
+|  Add vertex   |      O(1)      |      O(V^2)      |
+|   Add Edge    |      O(1)      |       O(1)       |
+| Remove vertex |     O(V+E)     |      O(V^2)      |
+|  Remove Edge  |      O(E)      |       O(1)       |
+|     Query     |     O(V+E)     |       O(1)       |
+|    Storage    |     O(V+E)     |      O(V^2)      |
+
+-   |V| : number of Vertices
+-   |E| : number of Edges
+
+<hr/>
+
+- **Adjacency List** take **less space** in sparse graph( when we have a few edges ).
+- **Adjacency List**  are **faster to iterate** over edges.
+- **Adjacency Matrix** are **faster to** finding a specific edge.
+
 ## Interesting Stuff
 
 ```typescript
