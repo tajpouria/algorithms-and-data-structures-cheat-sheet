@@ -2117,7 +2117,7 @@ class Graph {
 }
 ```
 
-## Dijkstra's Shortest path Algorithms
+## Dijkstra's Shortest path firt Algorithms
 
 Finding shortest path between two vertices in a **weighted graph**.
 
@@ -2190,6 +2190,7 @@ class WeightedGraph {
 
     dijkstraSPF(startingVertex: string, targetVertex: string): string[] {
         let path: string[] = [];
+
         if (
             this._adjacencyList[startingVertex] &&
             this._adjacencyList[targetVertex]
@@ -2197,6 +2198,7 @@ class WeightedGraph {
             const pq = new PriorityQueue();
             const previousVertex: { [vertex: string]: string | null } = {};
             const distances: { [vertex: string]: number } = {};
+
             // build initial states
             for (let key in this._adjacencyList) {
                 if (key === startingVertex) {
@@ -2210,27 +2212,23 @@ class WeightedGraph {
 
             while (pq.values.length) {
                 let smallest = pq.dequeue().value;
-                if (smallest && smallest === targetVertex) {
-                    // done build path
-                    while (
-                        previousVertex[smallest] ||
-                        smallest === startingVertex
-                    ) {
-                        path.push(smallest);
-                        smallest = previousVertex[smallest];
-                    }
-                    break;
-                }
                 if (smallest) {
-                    for (let neighbor in this._adjacencyList[smallest]) {
-                        const nextVertex = this._adjacencyList[smallest][
-                            neighbor
-                        ];
+                    if (smallest === targetVertex) {
+                        // done build path
+                        while (
+                            previousVertex[smallest] ||
+                            smallest === startingVertex
+                        ) {
+                            path.push(smallest);
+                            smallest = previousVertex[smallest];
+                        }
+                        break;
+                    }
 
-                        const candidate =
-                            distances[smallest] + nextVertex.weight;
+                    for (let neighbor of this._adjacencyList[smallest]) {
+                        const candidate = distances[smallest] + neighbor.weight;
 
-                        let nextNeighbor = nextVertex.vertex;
+                        let nextNeighbor = neighbor.vertex;
 
                         if (candidate < distances[nextNeighbor]) {
                             distances[nextNeighbor] = candidate;
@@ -2247,6 +2245,69 @@ class WeightedGraph {
         return path.reverse();
     }
 }
+```
+
+## Dynamic Programming (light introduction)
+
+It's a method for solving a complex problems by breaking it down into a collection of simpler problems, solving their subProblems **once** and **storing** their solutions.
+_technically it using knowledge of last problems to solve next by memorization_
+
+### example Fibonacci sequence
+
+Let's implement it without dynamic programming:without dynamic programming:
+
+**_in fibonacci sequence fib(n) = fib(n-2) + fib(n-1) && fin(1) = 1 && fib(2) = 1_**
+
+**O(2^n)**
+
+```typescript
+function fib(n: number): number {
+    if (n <= 2) return 1;
+    return fib(n - 1) + fib(n - 2);
+}
+```
+
+![](./assets/2-Figure3.1-1.png)
+
+As you see we calculate f(5) two times with current implementation.
+
+### memorization
+
+Storing the results of expensive function class and returning the cached result when the same inputs occur again.
+
+O(n)
+
+```typescript
+function fib(n: number, memo: number[] = []): number {
+    if (memo[n]) return memo[n];
+
+    if (n <= 2) return 1;
+
+    const res = fib(n - 1, memo) + fib(n - 2, memo);
+    memo[n] = res;
+
+    return res;
+}
+fib(10000); // Maximum callStack exceeded
+```
+
+### tabulation
+
+```typescript
+function fib(n: number): number {
+    if (n <= 2) return 1;
+
+    const fibNumbers = [0, 1, 1];
+
+    for (let index = 3; index <= n; index++) {
+        fibNumbers[index] = fibNumbers[index - 1] + fibNumbers[index - 2];
+    }
+
+    console.log(fibNumbers);
+
+    return fibNumbers[n];
+}
+fib(10000); // Infinity
 ```
 
 ## Interesting Stuff
@@ -2334,6 +2395,8 @@ const s = stack.shift();
 const p = stack.pop();
 console.log(s); // "s"
 console.log(p); // "F"
+
+["a", "b"].reverse(); // ['b', 'a']
 ```
 
 ### Object
