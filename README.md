@@ -570,12 +570,6 @@ function naiveStringSearch(long: string, pattern: string): number {
 }
 ```
 
-### KMP string search
-
-```typescript
-// TODO: add KMP string searching related stuff
-```
-
 ## Sorting Algorithms
 
 ### array.sort()

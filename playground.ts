@@ -11,3 +11,4 @@ function fib(n: number): number {
 
     return fibNumbers[n];
 }
+console.log('j');
