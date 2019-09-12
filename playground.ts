@@ -1,8 +1,41 @@
-interface AdjacencyList {
-    [vertex: string]: string[];
+interface Value {
+    value: any;
+    priority: number;
 }
 
-class Graph {
+interface Neighbor {
+    vertex: string;
+    weight: number;
+}
+
+interface AdjacencyList {
+    [vertex: string]: Neighbor[];
+}
+
+// naive priority queue
+class PriorityQueue {
+    private _values: Value[] = [];
+    public get values(): Value[] {
+        return this._values;
+    }
+
+    public enqueue(value: any, priority: number): Value[] {
+        this._values.push({ value, priority });
+        this.sort();
+        return this._values;
+    }
+
+    public dequeue(): Value {
+        const value = this._values.shift();
+        return value as Value;
+    }
+
+    private sort() {
+        this._values.sort((a: Value, b: Value) => a.priority - b.priority);
+    }
+}
+
+class WeightedGraph {
     private _adjacencyList: AdjacencyList = {};
     public get adjacencyList(): AdjacencyList {
         return this._adjacencyList;
@@ -16,133 +49,75 @@ class Graph {
         return this._adjacencyList;
     }
 
-    public addEdge(vertex1: string, vertex2: string): boolean {
-        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
-            this._adjacencyList[vertex1].push(vertex2),
-                this._adjacencyList[vertex2].push(vertex1);
-
+    public addEdge(vertex1: string, vertex2: string, weight: number): boolean {
+        if (this._adjacencyList[vertex1]) {
+            this._adjacencyList[vertex1].push({ vertex: vertex2, weight });
+            this._adjacencyList[vertex2].push({ vertex: vertex1, weight });
             return true;
         }
         return false;
     }
 
-    public removeEdge(vertex1: string, vertex2: string): boolean {
-        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
-            (this._adjacencyList[vertex1] = this._adjacencyList[vertex1].filter(
-                (value: string) => value !== vertex2
-            )),
-                (this._adjacencyList[vertex2] = this._adjacencyList[
-                    vertex2
-                ].filter((value: string) => value !== vertex1));
-            return true;
-        }
-        return false;
-    }
+    /* 
+    dijkstra shortest path first
+    */
 
-    public removeVertex(vertex: string): string | undefined {
-        if (this._adjacencyList[vertex]) {
+    dijkstraSPF(startingVertex: string, targetVertex: string): string[] {
+        let path: string[] = [];
+        if (
+            this._adjacencyList[startingVertex] &&
+            this._adjacencyList[targetVertex]
+        ) {
+            const pq = new PriorityQueue();
+            const previousVertex: { [vertex: string]: string | null } = {};
+            const distances: { [vertex: string]: number } = {};
+            // build initial states
             for (let key in this._adjacencyList) {
-                this.removeEdge(key, vertex);
+                if (key === startingVertex) {
+                    (distances[key] = 0), pq.enqueue(key, 0);
+                } else {
+                    distances[key] = Infinity;
+                    pq.enqueue(key, Infinity);
+                }
+                previousVertex[key] = null;
             }
-            delete this._adjacencyList[vertex];
 
-            return vertex;
-        }
-        return undefined;
-    }
+            while (pq.values.length) {
+                let smallest = pq.dequeue().value;
+                if (smallest && smallest === targetVertex) {
+                    // done build path
+                    while (
+                        previousVertex[smallest] ||
+                        smallest === startingVertex
+                    ) {
+                        path.push(smallest);
+                        smallest = previousVertex[smallest];
+                    }
+                    break;
+                }
+                if (smallest) {
+                    for (let neighbor in this._adjacencyList[smallest]) {
+                        const nextVertex = this._adjacencyList[smallest][
+                            neighbor
+                        ];
 
-    public dfcRecursive(startingVertex: string): string[] {
-        const results: string[] = [];
-        const adjacencyList = this._adjacencyList;
+                        const candidate =
+                            distances[smallest] + nextVertex.weight;
 
-        let currentVertex = this._adjacencyList[startingVertex];
-        if (currentVertex) {
-            const visitedVertex: { [vertex: string]: boolean } = {};
+                        let nextNeighbor = nextVertex.vertex;
 
-            (function traverse(vertex: string | undefined): void {
-                if (!vertex) return;
+                        if (candidate < distances[nextNeighbor]) {
+                            distances[nextNeighbor] = candidate;
 
-                if (!visitedVertex[vertex]) {
-                    visitedVertex[vertex] = true;
-                    results.push(vertex);
+                            previousVertex[nextNeighbor] = smallest;
 
-                    for (let neighbor of currentVertex) {
-                        if (!visitedVertex[neighbor]) {
-                            currentVertex = adjacencyList[neighbor];
-                            traverse(neighbor);
+                            pq.enqueue(nextNeighbor, candidate);
                         }
                     }
                 }
-            })(startingVertex);
-        }
-
-        return results;
-    }
-
-    public dfsIterative(startingVertex: string): string[] {
-        const results: string[] = [];
-
-        if (this._adjacencyList[startingVertex]) {
-            let stack: string[] = [startingVertex];
-            const visitedVertex: { [vertex: string]: boolean } = {};
-
-            while (stack.length) {
-                debugger;
-                const currentVertex = stack.pop();
-                if (currentVertex && !visitedVertex[currentVertex]) {
-                    visitedVertex[currentVertex] = true;
-                    results.push(currentVertex);
-                    stack = [...stack, ...this._adjacencyList[currentVertex]];
-                }
             }
         }
 
-        return results;
-    }
-
-    public breadthFirstSearch(startingVertex: string): string[] {
-        const results: string[] = [];
-
-        if (this._adjacencyList[startingVertex]) {
-            let queue = [startingVertex];
-            const visitedVertex: { [vertex: string]: boolean } = {};
-
-            while (queue.length) {
-                const currentVertex = queue.shift();
-                if (currentVertex && !visitedVertex[currentVertex]) {
-                    visitedVertex[currentVertex] = true;
-                    results.push(currentVertex);
-                    queue = [...queue, ...this._adjacencyList[currentVertex]];
-                }
-            }
-        }
-
-        return results;
+        return path.reverse();
     }
 }
-
-let g = new Graph();
-
-g.addVertex("A");
-g.addVertex("B");
-g.addVertex("C");
-g.addVertex("D");
-g.addVertex("E");
-g.addVertex("F");
-
-g.addEdge("A", "B");
-g.addEdge("A", "C");
-g.addEdge("B", "D");
-g.addEdge("C", "E");
-g.addEdge("D", "E");
-g.addEdge("D", "F");
-g.addEdge("E", "F");
-console.log(g.breadthFirstSearch("A"));
-
-//          A
-//        /   \
-//       B     C
-//       |     |
-//       D --- E
-//        \   /
-//          F
