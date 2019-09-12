@@ -1988,6 +1988,135 @@ class Graph {
 }
 ```
 
+## Graph Traversal
+
+### depth first traversal and breadth first traversal in graph
+
+```typescript
+interface AdjacencyList {
+    [vertex: string]: string[];
+}
+
+class Graph {
+    private _adjacencyList: AdjacencyList = {};
+    public get adjacencyList(): AdjacencyList {
+        return this._adjacencyList;
+    }
+    public set adjacencyList(value: AdjacencyList) {
+        this._adjacencyList = value;
+    }
+
+    public addVertex(vertex: string): AdjacencyList {
+        this._adjacencyList[vertex] = [];
+        return this._adjacencyList;
+    }
+
+    public addEdge(vertex1: string, vertex2: string): boolean {
+        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
+            this._adjacencyList[vertex1].push(vertex2),
+                this._adjacencyList[vertex2].push(vertex1);
+
+            return true;
+        }
+        return false;
+    }
+
+    public removeEdge(vertex1: string, vertex2: string): boolean {
+        if (this._adjacencyList[vertex1] && this._adjacencyList[vertex2]) {
+            (this._adjacencyList[vertex1] = this._adjacencyList[vertex1].filter(
+                (value: string) => value !== vertex2
+            )),
+                (this._adjacencyList[vertex2] = this._adjacencyList[
+                    vertex2
+                ].filter((value: string) => value !== vertex1));
+            return true;
+        }
+        return false;
+    }
+
+    public removeVertex(vertex: string): string | undefined {
+        if (this._adjacencyList[vertex]) {
+            for (let key in this._adjacencyList) {
+                this.removeEdge(key, vertex);
+            }
+            delete this._adjacencyList[vertex];
+
+            return vertex;
+        }
+        return undefined;
+    }
+
+    public dfcRecursive(startingVertex: string): string[] {
+        const results: string[] = [];
+        const adjacencyList = this._adjacencyList;
+
+        let currentVertex = this._adjacencyList[startingVertex];
+        if (currentVertex) {
+            const visitedVertex: { [vertex: string]: boolean } = {};
+
+            (function traverse(vertex: string | undefined): void {
+                if (!vertex) return;
+
+                if (!visitedVertex[vertex]) {
+                    visitedVertex[vertex] = true;
+                    results.push(vertex);
+
+                    for (let neighbor of currentVertex) {
+                        if (!visitedVertex[neighbor]) {
+                            currentVertex = adjacencyList[neighbor];
+                            traverse(neighbor);
+                        }
+                    }
+                }
+            })(startingVertex);
+        }
+
+        return results;
+    }
+    // or
+    public dfsIterative(startingVertex: string): string[] {
+        const results: string[] = [];
+
+        if (this._adjacencyList[startingVertex]) {
+            let stack: string[] = [startingVertex];
+            const visitedVertex: { [vertex: string]: boolean } = {};
+
+            while (stack.length) {
+                debugger;
+                const currentVertex = stack.pop();
+                if (currentVertex && !visitedVertex[currentVertex]) {
+                    visitedVertex[currentVertex] = true;
+                    results.push(currentVertex);
+                    stack = [...stack, ...this._adjacencyList[currentVertex]];
+                }
+            }
+        }
+
+        return results;
+    }
+
+    public breadthFirstSearch(startingVertex: string): string[] {
+        const results: string[] = [];
+
+        if (this._adjacencyList[startingVertex]) {
+            let queue = [startingVertex];
+            const visitedVertex: { [vertex: string]: boolean } = {};
+
+            while (queue.length) {
+                const currentVertex = queue.shift();
+                if (currentVertex && !visitedVertex[currentVertex]) {
+                    visitedVertex[currentVertex] = true;
+                    results.push(currentVertex);
+                    queue = [...queue, ...this._adjacencyList[currentVertex]];
+                }
+            }
+        }
+
+        return results;
+    }
+}
+```
+
 ## Interesting Stuff
 
 ```typescript
@@ -2063,8 +2192,16 @@ function isAlphaNumeric(char: string) {
 const array = ["hello", "world"];
 arr.find(el => el === "world"); // world
 arr.findIndex(el => el === "world"); // 1
+
 [1, 2].includes(1); // true
+
 Array.from({ length: 2 }, () => ["lol"]); // [["lol"], ["lol"]]
+
+const stack = ["A", "B", "D", "E", "C", "F"];
+const s = stack.shift();
+const p = stack.pop();
+console.log(s); // "s"
+console.log(p); // "F"
 ```
 
 ### Object
