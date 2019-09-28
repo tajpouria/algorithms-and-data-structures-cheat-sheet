@@ -2319,7 +2319,7 @@ console.log(!!0); // false
 
 ```typescript
 const str = "hello";
-str.search('lo') || .indexOf('lo')
+str.search('lo') || .indexOf('lo') // 3
 str.includes('lo') // true
 ```
 
