@@ -2373,7 +2373,7 @@ function isAlphaNumeric(char: string) {
 }
 ```
 
-## Array
+## Array 
 
 ```typescript
 const array = ["hello", "world"];
@@ -2387,7 +2387,7 @@ Array.from({ length: 2 }, () => ["lol"]); // [["lol"], ["lol"]]
 const stack = ["A", "B", "D", "E", "C", "F"];
 const s = stack.shift();
 const p = stack.pop();
-console.log(s); // "s"
+console.log(s); // "A"
 console.log(p); // "F"
 
 ["a", "b"].reverse(); // ['b', 'a']
