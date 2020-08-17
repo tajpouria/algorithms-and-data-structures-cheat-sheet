@@ -38,3 +38,50 @@ function reverse(arr, start, end) {
     return arr;
 }
 ```
+
+### [Minimum Swaps 2](https://www.hackerrank.com/challenges/minimum-swaps-2/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=arrays&h_r=next-challenge&h_v=zen)
+
+-   In order to find minimum number of swap needed to make an array sorted [Video](https://www.youtube.com/watch?v=f7IIW0HVUcQ)):
+
+```js
+function minimumSwap(arr) {
+    const dic = [],
+        visited = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        dic[i] = { key: i, val: arr[i] };
+        visited[i] = false;
+    }
+    dic.sort((a, b) => a.val - b.val);
+
+    /*
+      dic: [
+       {key: 0, val: 1}
+       {key: 2, val: 2}
+       {key: 1, val: 3}
+       {key: 3, val: 4}
+      ]
+    */
+
+    let swp = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (dic[i].key === i || visited[i]) continue;
+
+        let cycle = 0,
+            k = i;
+        while (!visited[i]) {
+            visited[i] = true;
+            k = dic[i].key;
+            cycle++;
+        }
+
+        if (cycle > 0) {
+            swp += cycle > 1 ? cycle - 1 : cycle;
+        }
+    }
+
+    return swp;
+}
+
+minimumSwap([1, 3, 2, 4]);
+```
