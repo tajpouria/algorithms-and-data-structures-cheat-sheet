@@ -824,6 +824,9 @@ function radixSort(arr: number[]): number[] {
 | quick sort |       O(n Log n)       |        O(n Log n)         |         O(n^2)          |     O(Log n)     |
 | radix sort |         O(nk)          |           O(nk)           |          O(nk)          |     O(n + k)     |
 
+### Overview comparison
+![Screenshot from 2021-03-25 12-09-22](https://user-images.githubusercontent.com/46822325/112436108-38411480-8d63-11eb-814b-d8720135d867.png)
+
 ## Data Structure
 
 ### complexity comparison
