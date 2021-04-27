@@ -2079,7 +2079,6 @@ class Graph {
             const visitedVertex: { [vertex: string]: boolean } = {};
 
             while (stack.length) {
-                debugger;
                 const currentVertex = stack.pop();
                 if (currentVertex && !visitedVertex[currentVertex]) {
                     visitedVertex[currentVertex] = true;
