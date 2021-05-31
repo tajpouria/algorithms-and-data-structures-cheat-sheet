@@ -2,7 +2,7 @@
 
 ### time complexity
 
-it allow us to talk formally about how the runtime of an algorithm grows as the input grows.
+It allows us to talk formally about how the runtime of an algorithm grows as the input grows.
 
 n = number of operation the computer has to do can be:
 f(n) = n
@@ -33,7 +33,7 @@ function addUpComplex(n: number) {
 }
 ```
 
-O(n): maybe thinking O(2n) but we see big picture! BigONotation doesn't care about precision only about general trends _linear? quadric? constant?_
+O(n): maybe thinking O(2n) but we see the big picture! BigONotation doesn't care about precision only about general trends _linear? quadric? constant?_
 
 ```typescript
 function printUpAndDown(n: number) {
@@ -86,7 +86,7 @@ function logAtMostFive(n: number) {
 Rules of Thumb
 
 -   most primitive _booleans numbers undefined null_ are constant space.
--   strings and reference types like objects an arrays require O(n) space _n is string length or number of keys_
+-   strings and reference types like objects and arrays require O(n) space _n is string length or number of keys_
 
 O(1)
 
@@ -111,7 +111,7 @@ function double(arr: number[]) {
 }
 ```
 
-### quick note around object, array through BigO lens!
+### quick note around the object, array through BigO lens!
 
 object:
 
@@ -125,7 +125,7 @@ person.hasOwnProperty("name"); // true O(1)
 ```
 
 array:
-_push() and pop()_ are always faster from _unshift() and shift()_ cuz inserting or removing element from beginning of an array needs reIndexing all elements
+_push() and pop()_ are always faster from _unshift() and shift()_ cuz inserting or removing element from the beginning of an array needs reIndexing all elements
 
 ## Common Patterns
 
@@ -372,7 +372,7 @@ function maxSubArraySum(arr: number[], n: number): number | null {
 
 ### divide and conquer
 
-linearSearch
+Linear search
 
 O(n)
 
@@ -387,7 +387,7 @@ function linearSearch(arr, val): number {
 }
 ```
 
-divide an conquer:
+divide and conquer:
 
 binarySearch
 
@@ -416,7 +416,7 @@ function binarySearch(sortedArr: number[], value: number): number {
 
 a process that calls itself
 
-quick note around callStack
+quick note around call stack
 
 ```typescript
 function wakeUp() {
@@ -448,8 +448,8 @@ wakeUp();
 
 two essential part of recursive functions
 
--   base case : end of the line
--   different input : recursive should call by different piece of data
+-   base case: end of the line
+-   different input: recursive should call by a different piece of data
 
 ```typescript
 function sumRange(num: number) {
@@ -574,11 +574,11 @@ function naiveStringSearch(long: string, pattern: string): number {
 
 ### array.sort()
 
-array.sort(cb?) will turn all values to _string_ then sort it based on it's _unicode_
+array.sort(cb?) will turn all values to _string_ then sort it based on its _unicode_
 
 ```typescript
-["a", "c", "b", "f", "d"].sort(); // (5) ["a", "b", "c", "d", "f"]
-[1, 10, 6, 8, 2, 3, 5].sort(); //(7) [1, 10, 2, 3, 5, 6, 8]
+["a", "c", "b", "f", "d"].sort(); // (5) ["a", "b", "c", "d", "f"]
+[1, 10, 6, 8, 2, 3, 5].sort(); //(7) [1, 10, 2, 3, 5, 6, 8]
 
 /* 
 also receive callback function by two arguments:
@@ -587,12 +587,12 @@ also receive callback function by two arguments:
 
 */
 // if callback return NEGATIVE number a will placed before b
-[1, 10, 6, 8, 2, 3, 5].sort((a, b) => a - b); // (7) [1, 2, 3, 5, 6, 8, 10]
+[1, 10, 6, 8, 2, 3, 5].sort((a, b) => a - b); // (7) [1, 2, 3, 5, 6, 8, 10]
 
 // if callback return POSITIVE number a will placed after b
-(7)[(1, 2, 3, 5, 6, 8, 10)].sort((a, b) => b - a); // (7) [10, 8, 6, 5, 3, 2, 1]
+(7)[(1, 2, 3, 5, 6, 8, 10)].sort((a, b) => b - a); // (7) [10, 8, 6, 5, 3, 2, 1]
 
-// if callback return ZERO a and b will placed at the same position
+// if callback return ZERO a and b will be placed, at the same position
 ```
 
 ## Quadric
@@ -1314,18 +1314,18 @@ class Queue {
 
 ### terminology
 
--   root : top node of tree
--   child : a node directly connected to another node when moving away from root
--   parent : the converse notion of a child
--   sibling : a group of nodes with the same parent
--   leaf : a child with no children
--   edge : connection from two node
+-   root: top node of the tree
+-   child: a node directly connected to another node when moving away from the root
+-   parent: the converse notion of a child
+-   sibling: a group of nodes with the same parent
+-   leaf: a child with no children
+-   edge: connection from two-node
 
 ### binary search tree
 
 -   every parent node has at most **two** children
--   every node to the **left** of parent node is always **less** than the **parent**
--   every node to the **right** of parent node is always **greater** than the **parent**
+-   every node to the **left** of the parent node is always **less** than the **parent**
+-   every node to the **right** of the parent node is always **greater** than the **parent**
 
 ```typescript
 class _Node {
@@ -1394,7 +1394,7 @@ class BinarySearchTree {
 
 ### tree traversal
 
-there is two main strategies to traversal a tree : **Breadth-first-search** and **Depth-first-search**
+there are two main strategies to traversal a tree: **Breadth-first-search** and **Depth-first-search**
 
 ```typescript
 class _Node {
@@ -1556,8 +1556,8 @@ if we got **a depth long tree** like this:
 <hr/>
 
 **potentially use cases for dfs variants (_preOder postOrder inOrder_)**
-preOrder is useful when we want a clone of tree.
-inOrder is useful when we want data in order that it's stored in tree.
+preOrder is useful when we want a clone of the tree.
+inOrder is useful when we want data so that it's stored in the tree.
 
 ## Binary heaps
 
@@ -1568,11 +1568,11 @@ inOrder is useful when we want data in order that it's stored in tree.
 
 **Max Binary Heap**:
 
--   **parent** nodes are always greater than **child** nodes but there is no guarantees between sibling
+-   **parent** nodes are always greater than **child** nodes but there are no guarantees between sibling
 
 **Min Binary Heap**:
 
--   **child** nodes are always greater than **parent** nodes but there is no guarantees between sibling
+-   **child** nodes are always greater than **parent** nodes but there are no guarantees between sibling
 
 ### binary heap parent and child relations
 
@@ -1682,7 +1682,7 @@ class MaxBinaryHeap {
 A data structure which every element has a priority.
 Elements with higher priorities are served before elements with lower priorities.
 
-**In the following example, we implemented a priority queue using minBinaryHeap but you should know binaryHeaps and priority queue is two different concepts and we just use an abstract of it**
+**In the following example, we implemented a priority queue using minBinaryHeap but you should know binaryHeaps and priority queue is two different concepts and we just use abstract of it**
 
 ```typescript
 interface INode {
@@ -1800,11 +1800,11 @@ class PriorityQueue {
 
 ## Hash Tables
 
-Hash tables are collection of key-value pairs
+Hash tables are a collection of key-value pairs
 
 ### collisions
 
-There is possibility for handle collisions is hash tables :
+There is a possibility for handle collisions in hash tables :
 
 -   Separate chaining ( e.g. using nested arrays of key values _implemented in following hash tables_ )
 -   linear probing ( if index filled place {key, value} in next position )
@@ -1883,20 +1883,20 @@ class HashTable {
 
 ## Graphs
 
-A graph data structure consists of a finite (and possibly mutable) set of vertices or nodes or points, together with a set of unordered pairs of these vertices for an undirected graph or a set of ordered pairs for directed graph.
+A graph data structure consists of a finite (and possibly mutable) set of vertices or nodes or points, together with a set of unordered pairs of these vertices for an undirected graph or a set of ordered pairs for a directed graph.
 
 ### terminology
 
 -   vertex :node
 
--   edge : connection between nodes
+-   edge: the connection between nodes
 
 -   directed/ undirected graph:
-    in directed graph there is a direction assigned to vertices an in undirected no direction assigned.
+    in the directed graph there is a direction assigned to vertices and in undirected, no direction is assigned.
     ![](./assets/three-node-networks.jpg)
 
 -   weighted/ unweighted graph:
-    in weighted graph there is a weight associated by edges but in unweighted graph no weight assigned to edges
+    in a weighted graph,depth-first there is a weight associated with edges but in an unweighted graph no weight assigned to edges
     ![](./assets/3.-Weithened-Graph.png)
 
 ### adjacency matrix
@@ -1987,7 +1987,7 @@ class Graph {
 
 ## Graph Traversal
 
-### depth first traversal and breadth first traversal in graph
+### depth first traversal and breadth-first traversal in the the graph
 
 ```typescript
 interface AdjacencyList {
@@ -2113,7 +2113,7 @@ class Graph {
 }
 ```
 
-## Dijkstra's Shortest path firt Algorithms
+## Dijkstra's Shortest path first Algorithms
 
 Finding shortest path between two vertices in a **weighted graph**.
 
@@ -2181,7 +2181,7 @@ class WeightedGraph {
     }
 
     /* 
-    dijkstra shortest path first
+    Dijkstra’scomplex problemsthem shortest path first
     */
 
     dijkstraSPF(startingVertex: string, targetVertex: string): string[] {
@@ -2269,7 +2269,7 @@ As you see we calculate f(5) two times with current implementation.
 
 ### memorization
 
-Storing the results of expensive function class and returning the cached result when the same inputs occur again.
+Storing the expensive function class results and returning the cached result when the same inputs occur again.
 
 O(n)
 
@@ -2445,3 +2445,5 @@ Math.log10(100); // 10
 Math.max(...[1, 2, 3]); // 3
 Math.min(...[1, 2, 3]); // 1
 ```
+
+
