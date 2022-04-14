@@ -4,12 +4,12 @@
 
 It allows us to talk formally about how the runtime of an algorithm grows as the input grows.
 
-n = number of operation the computer has to do can be:
+n = number of operations the computer has to do can be:
 f(n) = n
 f(n) = n^2
 f(n) = 1
 
-f(n) = could be something entirely different !
+f(n) = could be something entirely different!
 
 ![](./assets/ece920b.png)
 
