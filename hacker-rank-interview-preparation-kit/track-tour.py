@@ -15,18 +15,18 @@ import sys
 
 def truckTour(petrolpumps):
     # petrolpumps = [[1, 5], [10, 3], [3, 4]]
-    # i = 1, j = 2 
+    # i = 1, j = 2
     for i in range(len(petrolpumps)):
         b = 0
         started = True
-        for j in range(len(petrolpumps)):
-            aj = i+j if i+j < len(petrolpumps) else len(petrolpumps) - (i+j)
+        for j in range(len(petrolpumps)+1):
+            aj = i+j if i+j < len(petrolpumps) else abs(len(petrolpumps) - (i+j))
+            if aj == i and started is not True:
+                return i
             p, d = petrolpumps[aj]
             b += p-d
             if b < 0:
                 break
-            if aj == i and started is not True:
-                return i
             started = False
  
     return -1

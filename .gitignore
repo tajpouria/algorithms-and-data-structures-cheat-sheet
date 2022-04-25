@@ -3,3 +3,4 @@ dist/
 .cache/
 package-lock.json
 script.js
+*.out
