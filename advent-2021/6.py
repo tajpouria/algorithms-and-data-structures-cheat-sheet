@@ -1,6 +1,6 @@
 inp = [int(el) for el in open("6.in").read().strip().split(",")]
 
-for d in range(1, 81):
+for d in range(1, 267):
     for i in range(len(inp)):
         inp[i] -= 1
 
