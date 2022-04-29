@@ -23,6 +23,7 @@ def depth_first_values(r):
 	return res
 
 def depth_first_values_recursion(c):
+	if not c: return []
 	res = [c.data]
 	if c.left: res += depth_first_values(c.left)
 	if c.right: res += depth_first_values(c.right)
