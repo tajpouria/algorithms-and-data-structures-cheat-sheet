@@ -1,3 +1,5 @@
+# https://structy.net/problems/has-path
+
 from collections import deque
 
 def has_path(g, src, n):
