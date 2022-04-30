@@ -1,10 +1,23 @@
-class None:
+from collections import deque
+
+class Node:
     left = None 
     right = None
-    __init__(self, data):
+
+    def __init__(self, data):
         self.data = data 
 
-def
+def breadth_first_values(r):
+	q = deque([r])
+	res = []
+	while(len(q)):
+		c = q.popleft()
+		if not c: break
+		res.append(c.data)
+		if c.left: q.append(c.left)
+		if c.right: q.append(c.right)
+
+	return res
 
 
 a = Node('a')
@@ -24,7 +37,7 @@ c.right = f
 #    /   #   b     c
 #  / \     # d   e     f
 
-breadth_first_values(a) 
+print(breadth_first_values(a)) 
 #    -> ['a', 'b', 'c', 'd', 'e', 'f']
 
 a = Node('a')
@@ -49,14 +62,14 @@ f.right = h
 #  / \     # d   e     f
 #    /       #   g         h
 
-breadth_first_values(a) 
+print(breadth_first_values(a)) 
 #   -> ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 a = Node('a')
 
 #      a
 
-breadth_first_values(a) 
+print(breadth_first_values(a)) 
 #    -> ['a']
 
 a = Node('a')
@@ -79,8 +92,8 @@ d.right = e
 #    /  #   x    d
 #         #          e
 
-breadth_first_values(a) 
+print(breadth_first_values(a)) 
 #    -> ['a', 'b', 'c', 'x', 'd', 'e']
 
-breadth_first_values(None) 
+print(breadth_first_values(None)) 
 #    -> []
