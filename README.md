@@ -131,7 +131,7 @@ _push() and pop()_ are always faster from _unshift() and shift()_ cuz inserting 
 
 ### frequency counter
 
-O(n^3)
+O(n^2)
 
 ```typescript
 function same(arrOne: number[], arrTwo: number[]): boolean {
