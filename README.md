@@ -362,6 +362,8 @@ function maxSubArraySum(arr: number[], n: number): number | null {
         maxSum += arr[i];
     }
 
+    tmpSum = maxSum;
+
     for (let i = n; i < arr.length; i++) {
         tmpSum = tmpSum - arr[i - n] + arr[i];
         maxSum = Math.max(tmpSum, maxSum);
