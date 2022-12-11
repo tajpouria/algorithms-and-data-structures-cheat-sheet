@@ -1,26 +1,28 @@
-txt = """$ cd /
-$ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k"""
+txt = open(__file__.split(".")[0] + ".in").read()
+
+# txt = """$ cd /
+# $ ls
+# dir a
+# 14848514 b.txt
+# 8504156 c.dat
+# dir d
+# $ cd a
+# $ ls
+# dir e
+# 29116 f
+# 2557 g
+# 62596 h.lst
+# $ cd e
+# $ ls
+# 584 i
+# $ cd ..
+# $ cd ..
+# $ cd d
+# $ ls
+# 4060174 j
+# 8033020 d.log
+# 5626152 d.ext
+# 7214296 k"""
 
 t = {}
 c = []
@@ -44,19 +46,25 @@ for ln in txt.strip().split("\n")[1:]:
             _, dn = ln.split(" ")
             ld[dn] = {}
         else:
-            fs, fn= ln.split(" ")
+            fs, fn = ln.split(" ")
             ld[fn] = int(fs)
 
 
-def find_directories(tree, max_size=100000, directories=[]):
-    for key, value in tree.items():
-        if isinstance(value, object):
-            ts = sum(filter(lambda l: isinstance(l, int), value.values()))
-            if ts <= max_size:
-                directories.append((key, ts))
+print(t)
 
-    return directories
 
-directories = find_directories(t)
+def ds(t=t, rt={}, ck="/"):
+    s, sds = 0, 0
+    for itk, it in t.items():
+        if isinstance(it, dict):
+            sep = "/" if ck != "/" else ""
+            sds, _ = ds(it, rt, ck + sep + itk)
+        else:
+            s += it
+    rt[ck] = s + sds
+    return rt[ck], rt
 
-print(directories)
+
+_, rt = ds()
+
+print((sum(filter(lambda d: d <= 100000, rt.values()))))
