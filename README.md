@@ -1,46 +1,71 @@
+# Algorithms and Data Structures Cheat Sheet
+
+An algorithm is a set of steps for solving a specific problem, while a data structure is a method for organizing and storing data in a computer so that it can be accessed and modified efficiently. This cheat sheet provides a summary of key concepts and techniques in algorithms and data structures, including big O notation, common data structures such as arrays, linked lists, and hash tables, and popular algorithms such as search and sorting algorithms. Understanding these concepts is essential for designing and implementing efficient software solutions.
+
 ## Big O Notation
 
-### time complexity
+Big O notation is a way to describe the efficiency or complexity of an algorithm. It provides a rough estimate of how long an algorithm will take to run, based on the size of the input data.
 
-It allows us to talk formally about how the runtime of an algorithm grows as the input grows.
+In computer science, the "O" in Big O notation is used to describe the upper bound of an algorithm's running time. For example, if an algorithm has a running time of O(n), it means that the algorithm's running time grows at most linearly with the size of the input data. This means that if the input size doubles, the running time of the algorithm will approximately double as well.
 
-n = number of operations the computer has to do can be:
-f(n) = n
-f(n) = n^2
-f(n) = 1
+There are several common complexities that are described using Big O notation, including:
 
-f(n) = could be something entirely different!
+-   `O(1)`: Constant time. The running time of the algorithm is independent of the size of the input data.
 
-![](./assets/ece920b.png)
+-   `O(log n)`: Logarithmic time. The running time increases logarithmically with the size of the input data.
 
-O(n):
+-   `O(n)`: Linear time. The running time increases linearly with the size of the input data.
 
-```typescript
+-   `O(n log n)`: Log-linear time. The running time increases logarithmically with the size of the input data, but with a smaller coefficient than `O(log n)`.
+
+-   `O(n^2)`: Quadratic time. The running time increases as the square of the size of the input data.
+
+-   `O(n^3)`: Cubic time. The running time increases as the cube of the size of the input data.
+
+-   `O(2^n)`: Exponential time. The running time increases exponentially with the size of the input data.
+
+Big O notation is useful for comparing the efficiency of different algorithms, as well as for predicting the performance of an algorithm on larger inputs. However, it is important to note that Big O notation only provides an upper bound on an algorithm's running time, and actual running times may be faster in practice.
+
+Following chart is a comparison of the common complexities, from fastest to slowest:
+
+![Big-O Complexity Comparison](./assets/bigo.png)
+
+Here are some examples of Big O complexities:
+
+`O(n)`:
+
+```ts
 function addUpToSimple(n: number) {
     let total = 0;
     for (let i = 0; i < n; i++) {
         total += i;
     }
+
     return total;
 }
 ```
 
-O(1):
+The time complexity of the addUpToSimple function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
-```typescript
+`O(1)`:
+
+```ts
 function addUpComplex(n: number) {
     return (n * (n + 1)) / 2;
 }
 ```
 
-O(n): maybe thinking O(2n) but we see the big picture! BigONotation doesn't care about precision only about general trends _linear? quadric? constant?_
+The time complexity of the `addUpComplex` function is `O(1)`. This is because the function does not have any loops, and the time it takes to complete the function does not depend on the value of n.
 
-```typescript
+`O(n)`:
+
+```ts
 function printUpAndDown(n: number) {
     console.log("Going up");
     for (let i = 0; i < n; i++) {
         console.log(i);
     }
+
     console.log("Going down");
     for (let j = n - 1; j > 0; j--) {
         console.log(j);
@@ -48,9 +73,12 @@ function printUpAndDown(n: number) {
 }
 ```
 
-O(n^2)
+The time complexity of the `printUpAndDown` function is `O(n)`. This is because the function has two loops that each iterate over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+It's possible to think of the complexity as O(2n), but it's important to remember that Big O notation is a way of expressing the general trend of the time complexity of a function, rather than a precise measure. In other words, we are not concerned with the exact number of operations that the function performs, but rather the general trend of how the time complexity increases as the input size grows.
 
-```typescript
+`O(n^2)`:
+
+```ts
 function printAllPairs(n: number) {
     for (let i = 0; i < n; i++) {
         console.log(i);
@@ -61,9 +89,11 @@ function printAllPairs(n: number) {
 }
 ```
 
-O(n) : cuz as soon as n grows complexity grows too
+The time complexity of the `printAllPairs` function is `O(n^2)`. This is because the function has a nested loop, with the inner loop iterating over all the values from 0 to n for each iteration of the outer loop. The time it takes to complete the function grows quadratically with the value of n.
 
-```typescript
+`O(n)`:
+
+```ts
 function logAtLeastFive(n: number) {
     for (let i = 0; i <= Math.max(5, n); i++) {
         console.log(i);
@@ -71,15 +101,19 @@ function logAtLeastFive(n: number) {
 }
 ```
 
-O(1)
+The time complexity of the logAtLeastFive function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
-```typescript
+`O(1)`:
+
+```ts
 function logAtMostFive(n: number) {
     for (let i = 0; i <= Math.min(5, n); i++) {
         console.log(i);
     }
 }
 ```
+
+The time complexity of the logAtMostFive function is `O(1)`. This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
 
 ### space complexity
 
@@ -827,6 +861,7 @@ function radixSort(arr: number[]): number[] {
 | radix sort |         O(nk)          |           O(nk)           |          O(nk)          |     O(n + k)     |
 
 ### Overview comparison
+
 ![Screenshot from 2021-03-25 12-09-22](https://user-images.githubusercontent.com/46822325/112436108-38411480-8d63-11eb-814b-d8720135d867.png)
 
 ## Data Structure
@@ -1613,23 +1648,19 @@ class MaxBinaryHeap {
 
             if (target < leftChild && target < rightChild) {
                 if (rightChild > leftChild) {
-                    [
-                        this._values[targetIndex],
-                        this._values[rightChildIndex]
-                    ] = [
-                        this._values[rightChildIndex],
-                        this._values[targetIndex]
-                    ];
+                    [this._values[targetIndex], this._values[rightChildIndex]] =
+                        [
+                            this._values[rightChildIndex],
+                            this._values[targetIndex],
+                        ];
 
                     targetIndex = rightChildIndex;
                 } else {
-                    [
-                        this._values[targetIndex],
-                        this._values[leftChildIndex]
-                    ] = [
-                        this._values[leftChildIndex],
-                        this._values[targetIndex]
-                    ];
+                    [this._values[targetIndex], this._values[leftChildIndex]] =
+                        [
+                            this._values[leftChildIndex],
+                            this._values[targetIndex],
+                        ];
 
                     targetIndex = leftChildIndex;
                 }
@@ -1638,7 +1669,7 @@ class MaxBinaryHeap {
             } else if (rightChild >= target) {
                 [this._values[targetIndex], this._values[rightChildIndex]] = [
                     this._values[rightChildIndex],
-                    this._values[targetIndex]
+                    this._values[targetIndex],
                 ];
 
                 targetIndex = leftChildIndex;
@@ -1647,7 +1678,7 @@ class MaxBinaryHeap {
             } else if (leftChild >= target) {
                 [this._values[targetIndex], this._values[leftChildIndex]] = [
                     this._values[leftChildIndex],
-                    this._values[targetIndex]
+                    this._values[targetIndex],
                 ];
 
                 targetIndex = leftChildIndex;
@@ -1733,23 +1764,19 @@ class PriorityQueue {
                 target.priority > rightChild.priority
             ) {
                 if (rightChild.priority < leftChild.priority) {
-                    [
-                        this._values[targetIndex],
-                        this._values[rightChildIndex]
-                    ] = [
-                        this._values[rightChildIndex],
-                        this._values[targetIndex]
-                    ];
+                    [this._values[targetIndex], this._values[rightChildIndex]] =
+                        [
+                            this._values[rightChildIndex],
+                            this._values[targetIndex],
+                        ];
 
                     targetIndex = rightChildIndex;
                 } else {
-                    [
-                        this._values[targetIndex],
-                        this._values[leftChildIndex]
-                    ] = [
-                        this._values[leftChildIndex],
-                        this._values[targetIndex]
-                    ];
+                    [this._values[targetIndex], this._values[leftChildIndex]] =
+                        [
+                            this._values[leftChildIndex],
+                            this._values[targetIndex],
+                        ];
 
                     targetIndex = leftChildIndex;
                 }
@@ -1758,7 +1785,7 @@ class PriorityQueue {
             } else if (rightChild && rightChild.priority <= target.priority) {
                 [this._values[targetIndex], this._values[rightChildIndex]] = [
                     this._values[rightChildIndex],
-                    this._values[targetIndex]
+                    this._values[targetIndex],
                 ];
 
                 targetIndex = leftChildIndex;
@@ -1767,7 +1794,7 @@ class PriorityQueue {
             } else if (leftChild && leftChild.priority <= target.priority) {
                 [this._values[targetIndex], this._values[leftChildIndex]] = [
                     this._values[leftChildIndex],
-                    this._values[targetIndex]
+                    this._values[targetIndex],
                 ];
 
                 targetIndex = leftChildIndex;
@@ -2377,12 +2404,12 @@ function isAlphaNumeric(char: string) {
 }
 ```
 
-## Array 
+## Array
 
 ```typescript
 const array = ["hello", "world"];
-arr.find(el => el === "world"); // world
-arr.findIndex(el => el === "world"); // 1
+arr.find((el) => el === "world"); // world
+arr.findIndex((el) => el === "world"); // 1
 
 [1, 2].includes(1); // true
 
@@ -2447,5 +2474,3 @@ Math.log10(100); // 10
 Math.max(...[1, 2, 3]); // 3
 Math.min(...[1, 2, 3]); // 1
 ```
-
-
