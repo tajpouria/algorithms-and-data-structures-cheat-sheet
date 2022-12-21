@@ -45,7 +45,7 @@ function addUpToSimple(n: number) {
 }
 ```
 
-The time complexity of the `addUpToSimple` function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+The time complexity of the `addUpToSimple` function is O(n). This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
 `O(1)`:
 
@@ -55,7 +55,7 @@ function addUpComplex(n: number) {
 }
 ```
 
-The time complexity of the `addUpComplex` function is `O(1)`. This is because the function does not have any loops, and the time it takes to complete the function does not depend on the value of n.
+The time complexity of the `addUpComplex` function is O(1). This is because the function does not have any loops, and the time it takes to complete the function does not depend on the value of n.
 
 `O(n)`:
 
@@ -73,7 +73,7 @@ function printUpAndDown(n: number) {
 }
 ```
 
-The time complexity of the `printUpAndDown` function is `O(n)`. This is because the function has two loops that each iterate over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+The time complexity of the `printUpAndDown` function is O(n). This is because the function has two loops that each iterate over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 It's possible to think of the complexity as O(2n), but it's important to remember that Big O notation is a way of expressing the general trend of the time complexity of a function, rather than a precise measure. In other words, we are not concerned with the exact number of operations that the function performs, but rather the general trend of how the time complexity increases as the input size grows.
 
 `O(n^2)`:
@@ -89,7 +89,7 @@ function printAllPairs(n: number) {
 }
 ```
 
-The time complexity of the `printAllPairs` function is `O(n^2)`. This is because the function has a nested loop, with the inner loop iterating over all the values from 0 to n for each iteration of the outer loop. The time it takes to complete the function grows quadratically with the value of n.
+The time complexity of the `printAllPairs` function is O(n^2). This is because the function has a nested loop, with the inner loop iterating over all the values from 0 to n for each iteration of the outer loop. The time it takes to complete the function grows quadratically with the value of n.
 
 `O(n)`:
 
@@ -101,7 +101,7 @@ function logAtLeastFive(n: number) {
 }
 ```
 
-The time complexity of the `logAtLeastFive` function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+The time complexity of the `logAtLeastFive` function is O(n). This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
 `O(1)`:
 
@@ -113,16 +113,52 @@ function logAtMostFive(n: number) {
 }
 ```
 
-The time complexity of the `logAtMostFive` function is `O(1)`. This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
+The time complexity of the `logAtMostFive` function is O(1). This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
 
-### space complexity
+## Big O Notation for some of the Objects and Arrays methods
 
-Rules of Thumb
+For the Objects, the `Object.keys`, `Object.values`, and `Object.entries` methods are used to retrieve the keys, values, and key-value pairs, respectively, of the object. These methods have a space complexity of O(n), because they iterate over all the properties of the object and create a new array that is the same size as the number of properties in the object.
 
--   most primitive _booleans numbers undefined null_ are constant space.
--   strings and reference types like objects and arrays require O(n) space _n is string length or number of keys_
+The `hasOwnProperty` method, on the other hand, has a space complexity of O(1), because it only performs a single operation (checking whether the object has a property with a specific name). The size of the object does not affect the amount of memory required by the method, so the space complexity is constant.
 
-O(1)
+```ts
+const person = { name: "John", age: 22, hobbies: ["reading", "sleeping"] };
+
+Object.keys(person); // ["name", "age", "hobbies"]
+Object.values(person); // ["John", 22, ["reading", "sleeping"]]
+Object.entries(person); // [["name", "John"], ["age", 22], ["hobbies", ["reading", "sleeping"]]]
+person.hasOwnProperty("name"); // true
+```
+
+In terms of arrays, the `push` and `pop` methods are generally faster than the `unshift` and `shift` methods when inserting or removing elements from the beginning of an array. This is because inserting or removing elements from the beginning of an array requires re-indexing all the elements in the array, which can be time-consuming. The push and pop methods, on the other hand, only require re-indexing the last element in the array, which is generally faster. However, the exact performance difference between these methods will depend on the specific implementation and the size of the array.
+
+```ts
+const array = [1, 2, 3, 4, 5];
+
+console.time("push");
+array.push(6);
+console.timeEnd("push"); // takes a very small amount of time
+
+console.time("unshift");
+array.unshift(0);
+console.timeEnd("unshift"); // takes a longer amount of time
+```
+
+## Space Complexity
+
+In computer science, space complexity refers to the amount of memory that an algorithm requires to run to completion. It is a measure of the resources that an algorithm consumes, and it is typically expressed in terms of the size of the input to the algorithm.
+
+For example, if an algorithm has a space complexity of O(1), this means that it requires a constant amount of memory, regardless of the size of the input. On the other hand, if an algorithm has a space complexity of O(n), this means that it requires a larger amount of memory as the size of the input increases.
+
+Most primitive data types (booleans, numbers, undefined, and null) are considered to have a constant space complexity. This means that they do not consume more memory as the size of the input increases.
+
+On the other hand, strings and reference types like objects and arrays are considered to have a space complexity of O(n). This means that they consume more memory as the size of the input increases. For strings, the size of the input is the length of the string. For objects and arrays, the size of the input is the number of keys or elements in the object or array.
+
+It is important to note that space complexity is a measure of the resources that an algorithm consumes, and it does not take into account the resources that are required to store the input data. For example, if an algorithm has a space complexity of O(1) but the input data has a space complexity of O(n), the overall space complexity of the algorithm will still be O(n).
+
+Here are some examples of space complexity:
+
+`O(1)`:
 
 ```ts
 function sum(arr: number[]) {
@@ -133,33 +169,22 @@ function sum(arr: number[]) {
 }
 ```
 
-O(n)
+The space complexity of the function, `sum`, is O(1), because it only uses a single variable (`total`) to store the result of the computation. The size of the input (the length of the array arr) does not affect the amount of memory required by the function, so the space complexity is constant.
 
-```typescript
+`O(n)`:
+
+```ts
 function double(arr: number[]) {
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
         array.push(arr[i] * 2);
     }
+
     return newArr;
 }
 ```
 
-### quick note around the object, array through BigO lens!
-
-object:
-
-```typescript
-const person = { name: "John", age: 22, hobbies: ["reading", "sleeping"] };
-
-Object.keys(person); // ["name", "age", "hobbies"] O(n)
-Object.values(person); // ["John", 22, Array(2)] O(n)
-Object.entries(person); // [Array(2), Array(2), Array(2)] O(n)
-person.hasOwnProperty("name"); // true O(1)
-```
-
-array:
-_push() and pop()_ are always faster from _unshift() and shift()_ cuz inserting or removing element from the beginning of an array needs reIndexing all elements
+The space complexity of the function, `double`, is O(n), because it creates a new array (`newArr`) and stores one element in the array for each element in the input array `arr`. The size of the input (the length of the array `arr`) directly determines the number of elements that are stored in the new array, so the space complexity is proportional to the size of the input.
 
 ## Common Patterns
 
