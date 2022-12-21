@@ -45,7 +45,7 @@ function addUpToSimple(n: number) {
 }
 ```
 
-The time complexity of the addUpToSimple function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+The time complexity of the `addUpToSimple` function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
 `O(1)`:
 
@@ -101,7 +101,7 @@ function logAtLeastFive(n: number) {
 }
 ```
 
-The time complexity of the logAtLeastFive function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
+The time complexity of the `logAtLeastFive` function is `O(n)`. This is because the function has a loop that iterates over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
 
 `O(1)`:
 
@@ -113,7 +113,7 @@ function logAtMostFive(n: number) {
 }
 ```
 
-The time complexity of the logAtMostFive function is `O(1)`. This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
+The time complexity of the `logAtMostFive` function is `O(1)`. This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
 
 ### space complexity
 
