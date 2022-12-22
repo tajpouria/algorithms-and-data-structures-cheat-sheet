@@ -35,7 +35,7 @@ Here are some examples of Big O complexities:
 `O(n)`:
 
 ```ts
-function addUpToSimple(n: number) {
+function addUpToSimple(n: number): void {
     let total = 0;
     for (let i = 0; i < n; i++) {
         total += i;
@@ -50,7 +50,7 @@ The time complexity of the `addUpToSimple` function is O(n). This is because the
 `O(1)`:
 
 ```ts
-function addUpComplex(n: number) {
+function addUpComplex(n: number): void {
     return (n * (n + 1)) / 2;
 }
 ```
@@ -60,7 +60,7 @@ The time complexity of the `addUpComplex` function is O(1). This is because the 
 `O(n)`:
 
 ```ts
-function printUpAndDown(n: number) {
+function printUpAndDown(n: number): void {
     console.log("Going up");
     for (let i = 0; i < n; i++) {
         console.log(i);
@@ -79,7 +79,7 @@ It's possible to think of the complexity as O(2n), but it's important to remembe
 `O(n^2)`:
 
 ```ts
-function printAllPairs(n: number) {
+function printAllPairs(n: number): void {
     for (let i = 0; i < n; i++) {
         console.log(i);
         for (let j = 0; j < n; j++) {
@@ -94,7 +94,7 @@ The time complexity of the `printAllPairs` function is O(n^2). This is because t
 `O(n)`:
 
 ```ts
-function logAtLeastFive(n: number) {
+function logAtLeastFive(n: number): void {
     for (let i = 0; i <= Math.max(5, n); i++) {
         console.log(i);
     }
@@ -106,7 +106,7 @@ The time complexity of the `logAtLeastFive` function is O(n). This is because th
 `O(1)`:
 
 ```ts
-function logAtMostFive(n: number) {
+function logAtMostFive(n: number): void {
     for (let i = 0; i <= Math.min(5, n); i++) {
         console.log(i);
     }
@@ -161,7 +161,7 @@ Here are some examples of space complexity:
 `O(1)`:
 
 ```ts
-function sum(arr: number[]) {
+function sum(arr: number[]): number[] {
     let total = 0;
     for (let i = 0; i < arr.length; i++) {
         total += arr[i];
@@ -174,7 +174,7 @@ The space complexity of the function, `sum`, is O(1), because it only uses a sin
 `O(n)`:
 
 ```ts
-function double(arr: number[]) {
+function double(arr: number[]): number[] {
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
         array.push(arr[i] * 2);
@@ -186,120 +186,195 @@ function double(arr: number[]) {
 
 The space complexity of the function, `double`, is O(n), because it creates a new array (`newArr`) and stores one element in the array for each element in the input array `arr`. The size of the input (the length of the array `arr`) directly determines the number of elements that are stored in the new array, so the space complexity is proportional to the size of the input.
 
-## Common Patterns
+## Common Problem Solving Patterns
 
-### frequency counter
+Some common problem solving patterns are:
 
-O(n^2)
+-   Frequency Counter
+-   Multiple Pointers
+-   Sliding Window
+-   Divide and Conquer
+-   Recursion
 
-```typescript
+These patterns involve creating and manipulating data structures and algorithms to solve problems more efficiently and effectively. They are often used in interviews and technical assessments as a way to test a candidate's problem solving skills.
+
+### Frequency Counter
+
+Frequency counter is a technique used in algorithm design to count the frequency of elements in a data structure. It is often used to optimize the performance of an algorithm by avoiding the use of costly operations such as searching or sorting.
+
+To implement a frequency counter, you can create an object or map to store the frequencies of the elements in the data structure. You can then iterate through the data structure and increment the count for each element in the object or map.
+
+For example, consider the following array:
+
+```json
+[1, 2, 3, 2, 3, 1, 3]
+```
+
+To implement a frequency counter for this array, you can create an object with keys representing the elements in the array and values representing their frequencies:
+
+```json
+{
+    "1": 2,
+    "2": 2,
+    "3": 3
+}
+```
+
+You can then use this object to quickly look up the frequency of any element in the array without having to iterate through the entire array. This can be particularly useful when the array is large or when you need to perform multiple lookups.
+
+Frequency counters are often used in conjunction with other techniques such as multiple pointers or sliding windows to solve problems efficiently.
+
+For example here's a problem that could be resolved using the frequency counter patter:
+
+Write a function `same` that takes in two arrays of numbers `arrOne` and `arrTwo`. The function should return a boolean indicating whether or not the elements in `arrOne` are the squares of the elements in `arrTwo`.
+
+**Without** Frequency Counter:
+
+```ts
 function same(arrOne: number[], arrTwo: number[]): boolean {
+    // Return false if the arrays have different lengths
     if (arrOne.length !== arrTwo.length) {
         return false;
     }
+
+    // Iterate through each element in arrOne
     for (let element of arrOne) {
-        // for O(n)
+        // Return false if the square of the element is not in arrTwo
         if (!arrTwo.includes(element ** 2)) {
-            // includes cuz iterate over all indexes O(n)
             return false;
         }
-        arrTwo.splice(arrTwo.indexOf(element ** 2), 1); // indexOf cuz iterate over all indexes O(n)
+        // Remove the element from arrTwo if it is present
+        arrTwo.splice(arrTwo.indexOf(element ** 2), 1);
     }
+
+    // If all elements are present and the lengths match, return true
     return true;
 }
 ```
 
-frequencyCounter:
+The function has a time complexity of O(n^2). This is because it includes two nested loops. The outer loop iterates through each element of arrOne, and the inner loop searches for the corresponding element in `arrTwo` using the includes method, which has a time complexity of O(n). The splice method, which is also used in the inner loop, has a time complexity of O(n) as well. Therefore, the overall time complexity of the first function is O(n^2).
 
-O(n)
+**With** Frequency Counter:
 
-```typescript
-function same(arr1: number[], arr2: number[]) {
+```ts
+function same(arr1: number[], arr2: number[]): boolean {
+    // Return false if the arrays have different lengths
     if (arr1.length !== arr2.length) {
         return false;
     }
 
+    // Initialize empty frequency counter objects for arr1 and arr2
     const frequencyCounter1 = {};
     const frequencyCounter2 = {};
 
+    // Populate frequencyCounter1 with the frequency of each element in arr1
     for (let val of arr1) {
         frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
     }
+    // Populate frequencyCounter2 with the frequency of each element in arr2
     for (let val of arr2) {
         frequencyCounter2[val] = (frequencyCounter2[val] || 0) + 1;
     }
 
+    // Iterate through the keys in frequencyCounter1
     for (let key in frequencyCounter1) {
+        // Calculate the square of the key
         const sqrtKey = parseInt(key, 10) ** 2;
+        // Return false if the square of the key is not in frequencyCounter2 or if the frequencies do not match
         if (
-            !(sqrtKey in frequencyCounter2) || // interesting ** in ** check if object contains key
+            !(sqrtKey in frequencyCounter2) ||
             frequencyCounter2[sqrtKey] !== frequencyCounter1[key]
         ) {
             return false;
         }
     }
 
+    // If all checks pass, return true
     return true;
 }
 ```
 
-O(n)
+The function has a time complexity of O(n). This is because it only includes a single loop through each of the arrays. The `frequencyCounter1` and `frequencyCounter2` objects are built in O(n) time by iterating through `arr1` and `arr2` respectively and adding each element to the corresponding object. Then, the function iterates through the keys in `frequencyCounter1` and checks the corresponding values in `frequencyCounter2`. Since there are a constant number of keys in frequencyCounter1, the time complexity of this step is O(1). Therefore, the overall time complexity of the second function is O(n).
 
-```typescript
-// approach one
+Another example with frequency counter:
+
+Write a function `validAnagram` that takes in two strings, `str1` and `str2`, and returns a boolean indicating whether or not `str1` is an anagram of `str2`. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+```ts
 function validAnagram(str1: string, str2: string): boolean {
+    // Return false if the strings have different lengths
     if (str1.length !== str2.length) {
         return false;
     }
 
+    // Initialize empty frequency count objects for str1 and str2
     const frequencyCount1 = {};
     const frequencyCount2 = {};
 
+    // Populate frequencyCount1 with the frequency of each character in str1
     for (let value of str1) {
         frequencyCount1[value] = (frequencyCount1[value] || 0) + 1;
     }
+    // Populate frequencyCount2 with the frequency of each character in str2
     for (let value of str2) {
         frequencyCount2[value] = (frequencyCount2[value] || 0) + 1;
     }
 
+    // Iterate through each key in frequencyCount1
     for (let key in frequencyCount1) {
+        // Return false if the value of the key is different in frequency counters
         if (frequencyCount1[key] !== frequencyCount2[key]) {
             return false;
         }
     }
 
+    // If all characters in str2 are present in the frequency count object and the counts match, return true
     return true;
 }
+```
 
-// approach two
+The function has a time complexity of O(n). This is because it includes two loops that each iterate through the characters in the strings. The `frequencyCount1` and `frequencyCount2` objects are built in O(n) time by iterating through `str1` and `str2` respectively and adding each character to the corresponding object. Then, the function iterates through the keys in `frequencyCount1` and checks the corresponding values in `frequencyCount2`. Since there are a constant number of keys in `frequencyCount1`, the time complexity of this step is O(1). Therefore, the overall time complexity of the first function is O(n).
+
+Another approach to solve this problem:
+
+```ts
 function validAnagram(str1: string, str2: string): boolean {
+    // Return false if the strings have different lengths
     if (str1.length !== str2.length) {
         return false;
     }
 
+    // Initialize an empty frequency count object
     const frequencyCount = {};
 
+    // Iterate through each character in str1
     for (let i = 0; i < str1.length; i++) {
         const currentElement = str1[i];
-
+        // Increment the frequency count for the current character in the frequency count object
         frequencyCount[currentElement]
             ? (frequencyCount[currentElement] += 1)
             : (frequencyCount[currentElement] = 1);
     }
 
+    // Iterate through each character in str2
     for (let i = 0; i < str2.length; i++) {
         const currentElement = str2[i];
-
+        // Return false if the current character is not in the frequency count object
         if (!frequencyCount[currentElement]) {
             return false;
-        } else {
+        }
+        // Decrement the frequency count for the current character in the frequency count object
+        else {
             frequencyCount[currentElement] -= 1;
         }
     }
 
+    // If all characters in str2 are present in the frequency count object and the counts match, return true
     return true;
 }
 ```
+
+The function also has a time complexity of O(n). This is because it includes two loops that each iterate through the characters in the strings. The `frequencyCount` object is built in O(n) time by iterating through `str1` and adding each character to the object. Then, the function iterates through `str2` and decrements the count for each character in the `frequencyCount` object. Since the function only iterates through the characters in `str2`, the time complexity is O(n).
 
 ## multiple pointers
 
