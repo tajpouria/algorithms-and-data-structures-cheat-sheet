@@ -224,7 +224,7 @@ You can then use this object to quickly look up the frequency of any element in 
 
 Frequency counters are often used in conjunction with other techniques such as multiple pointers or sliding windows to solve problems efficiently.
 
-For example here's a problem that could be resolved using the frequency counter patter:
+For example here's a problem that could be resolved using the frequency counter pattern:
 
 Write a function `same` that takes in two arrays of numbers `arrOne` and `arrTwo`. The function should return a boolean indicating whether or not the elements in `arrOne` are the squares of the elements in `arrTwo`.
 
@@ -376,47 +376,89 @@ function validAnagram(str1: string, str2: string): boolean {
 
 The function also has a time complexity of O(n). This is because it includes two loops that each iterate through the characters in the strings. The `frequencyCount` object is built in O(n) time by iterating through `str1` and adding each character to the object. Then, the function iterates through `str2` and decrements the count for each character in the `frequencyCount` object. Since the function only iterates through the characters in `str2`, the time complexity is O(n).
 
-## multiple pointers
+## Multiple Pointers
 
-O(n^2)
+The multiple pointers pattern involves using two or more pointers to solve a problem by traversing a data structure, such as an array or a linked list. The pointers typically move towards each other or towards the middle of the data structure, and the algorithm performs some operation on the values at the pointers' current positions.
 
-```typescript
-function sumZero(arr: number[]) {
+Here's an example of how the multiple pointers pattern can be used to solve a problem:
+
+Suppose we want to find the first pair of elements in an array that sums to a target value. We could use the multiple pointers pattern to solve this problem as follows:
+
+1. Initialize two pointers, `left` and `right`, to the first and last elements of the array, respectively.
+2. While `left` is less than or equal to `right`, do the following:
+    1. If the sum of the elements at `left` and `right` is less than the target value, increment `left`.
+    2. If the sum of the elements at `left` and `right` is greater than the target value, decrement `right`.
+    3. If the sum of the elements at `left` and `right` is equal to the target value, return the pair (left, `right`).
+3. If the loop terminates without finding a pair that sums to the target value, return null or some other sentinel value indicating that no such pair was found.
+   Using the multiple pointers pattern can be an efficient way to solve certain problems, as it allows us to traverse the data structure in a single pass, rather than needing to perform multiple passes or use nested loops. It can also make the solution more readable and easier to understand, as it clearly defines the roles of the different pointers and the logic of the algorithm.
+
+For example here's a problem that could be resolved using the multiple pointers pattern:
+
+Write a function `sumZero` that takes in an **sorted** array of integers `arr` and returns the first pair of elements that sum to zero, if one exists. If no such pair is found, the function should return an empty array.
+
+**Without** Multiple Pointers:
+
+```ts
+function sumZero(arr: number[]): number[] {
+    // Iterate over each element in the array
     for (let i = 0; i < arr.length; i++) {
+        // Iterate over the remaining elements in the array, starting at the element after i
         for (let j = i + 1; j < arr.length; j++) {
+            // If the sum of the current elements is 0, return the pair
             if (arr[i] + arr[j] === 0) {
                 return [arr[i], arr[j]];
             }
         }
     }
+
+    // If no pair was found, return an empty array
+    return [];
 }
 ```
 
-multiple pointers:
+The time complexity of the `sumZero` function is O(n^2), or quadratic. This is because the function contains a nested loop, and the inner loop iterates over all elements of the array for each iteration of the outer loop. This means that the total number of iterations of the inner loop is equal to the length of the array multiplied by itself, or n \* n.
 
-O(n)
+For example, if the length of the array is 5, the inner loop will be executed 5 \* 5 = 25 times. As the length of the array increases, the time complexity of the function will increase significantly, making it less efficient for larger inputs.
 
-```typescript
-function sumZero(arr: number[]) {
+To improve the time complexity of this function, we could try using a different algorithm or data structure, such as the multiple pointers pattern, which has a time complexity of O(n) (linear) for this particular problem.
+
+**With** Multiple Pointers:
+
+```ts
+function sumZero(arr: number[]): number[] {
+    // Initialize left pointer to the first element of the array
     let left = 0;
+    // Initialize right pointer to the last element of the array
     let right = arr.length - 1;
 
+    // While the left pointer is less than the right pointer, do the following:
     while (left < right) {
+        // Calculate the sum of the elements at the left and right pointers
         const sum = arr[left] + arr[right];
+        // If the sum is 0, return the pair
         if (sum === 0) {
             return [arr[left], arr[right]];
-        } else if (sum > 0) {
+        }
+        // If the sum is greater than 0, decrement the right pointer
+        else if (sum > 0) {
             right--;
-        } else {
+        }
+        // If the sum is less than 0, increment the left pointer
+        else {
             left++;
         }
     }
+
+    // If no pair was found, return an empty array
+    return [];
 }
 ```
 
-O(n)
+The time complexity of the `sumZero` function is O(n), or linear. This is because the function traverses the input array only once, using two pointers that move towards each other until they meet or pass each other. The number of iterations of the loop is directly proportional to the length of the array, so the time complexity is linear.
 
-```typescript
+This is a significant improvement over the previous version of the `sumZero` function, which had a time complexity of O(n^2) (quadratic) due to the nested loop. Using the multiple pointers pattern allowed us to solve the problem with a single pass through the array, making the solution more efficient for larger inputs.
+
+```ts
 // my approach
 
 function countUniqueValues(arr: number[]): number {
