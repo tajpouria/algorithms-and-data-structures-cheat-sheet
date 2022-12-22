@@ -388,7 +388,7 @@ Suppose we want to find the first pair of elements in an array that sums to a ta
 2. While `left` is less than or equal to `right`, do the following:
     1. If the sum of the elements at `left` and `right` is less than the target value, increment `left`.
     2. If the sum of the elements at `left` and `right` is greater than the target value, decrement `right`.
-    3. If the sum of the elements at `left` and `right` is equal to the target value, return the pair (left, `right`).
+    3. If the sum of the elements at `left` and `right` is equal to the target value, return the pair (`left`, `right`).
 3. If the loop terminates without finding a pair that sums to the target value, return null or some other sentinel value indicating that no such pair was found.
    Using the multiple pointers pattern can be an efficient way to solve certain problems, as it allows us to traverse the data structure in a single pass, rather than needing to perform multiple passes or use nested loops. It can also make the solution more readable and easier to understand, as it clearly defines the roles of the different pointers and the logic of the algorithm.
 
