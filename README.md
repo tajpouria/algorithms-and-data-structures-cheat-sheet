@@ -6,9 +6,9 @@ An algorithm is a set of steps for solving a specific problem, while a data stru
 
 Big O notation is a way to describe the efficiency or complexity of an algorithm. It provides a rough estimate of how long an algorithm will take to run, based on the size of the input data.
 
-In computer science, the "O" in Big O notation is used to describe the upper bound of an algorithm's running time. For example, if an algorithm has a running time of O(n), it means that the algorithm's running time grows at most linearly with the size of the input data. This means that if the input size doubles, the running time of the algorithm will approximately double as well.
+In computer science, the "O" in Big O notation is used to describe the upper bound of an algorithm's running time. For example, if an algorithm has a running time of O(n), it means that the algorithm's running time grows most linearly with the size of the input data. This means that if the input size doubles, the running time of the algorithm will approximately double as well.
 
-There are several common complexities that are described using Big O notation, including:
+Several common complexities are described using Big O notation, including:
 
 -   `O(1)`: Constant time. The running time of the algorithm is independent of the size of the input data.
 
@@ -26,7 +26,7 @@ There are several common complexities that are described using Big O notation, i
 
 Big O notation is useful for comparing the efficiency of different algorithms, as well as for predicting the performance of an algorithm on larger inputs. However, it is important to note that Big O notation only provides an upper bound on an algorithm's running time, and actual running times may be faster in practice.
 
-Following chart is a comparison of the common complexities, from fastest to slowest:
+The following chart is a comparison of the common complexities, from fastest to slowest:
 
 ![Big-O Complexity Comparison](./assets/bigo.png)
 
@@ -74,7 +74,7 @@ function printUpAndDown(n: number): void {
 ```
 
 The time complexity of the `printUpAndDown` function is O(n). This is because the function has two loops that each iterate over all the values from 0 to n, and the time it takes to complete the function grows linearly with the value of n.
-It's possible to think of the complexity as O(2n), but it's important to remember that Big O notation is a way of expressing the general trend of the time complexity of a function, rather than a precise measure. In other words, we are not concerned with the exact number of operations that the function performs, but rather the general trend of how the time complexity increases as the input size grows.
+It's possible to think of the complexity as O(2n), but it's important to remember that Big O notation is a way of expressing the general trend of the time complexity of a function, rather than a precise measure. In other words, we are not concerned with the exact number of operations that the function performs, but rather the general trend of how the time complexity increases as the input size grow.
 
 `O(n^2)`:
 
@@ -117,7 +117,7 @@ The time complexity of the `logAtMostFive` function is O(1). This is because the
 
 ## Big O Notation for some of the Objects and Arrays methods
 
-For the Objects, the `Object.keys`, `Object.values`, and `Object.entries` methods are used to retrieve the keys, values, and key-value pairs, respectively, of the object. These methods have a space complexity of O(n), because they iterate over all the properties of the object and create a new array that is the same size as the number of properties in the object.
+For the Objects, the `Object.keys`, `Object.values`, and `Object.entries` methods are used to retrieve the keys, values, and key-value pairs, respectively, of the object. These methods have a space complexity of O(n) because they iterate over all the properties of the object and create a new array that is the same size as the number of properties in the object.
 
 The `hasOwnProperty` method, on the other hand, has a space complexity of O(1), because it only performs a single operation (checking whether the object has a property with a specific name). The size of the object does not affect the amount of memory required by the method, so the space complexity is constant.
 
@@ -169,7 +169,7 @@ function sum(arr: number[]): number[] {
 }
 ```
 
-The space complexity of the function, `sum`, is O(1), because it only uses a single variable (`total`) to store the result of the computation. The size of the input (the length of the array arr) does not affect the amount of memory required by the function, so the space complexity is constant.
+The space complexity of the function, `sum`, is O(1) because it only uses a single variable (`total`) to store the result of the computation. The size of the input (the length of the array arr) does not affect the amount of memory required by the function, so the space complexity is constant.
 
 `O(n)`:
 
@@ -186,9 +186,9 @@ function double(arr: number[]): number[] {
 
 The space complexity of the function, `double`, is O(n), because it creates a new array (`newArr`) and stores one element in the array for each element in the input array `arr`. The size of the input (the length of the array `arr`) directly determines the number of elements that are stored in the new array, so the space complexity is proportional to the size of the input.
 
-## Common Problem Solving Patterns
+## Common Problem-Solving Patterns
 
-Some common problem solving patterns are:
+Some common problem-solving patterns are:
 
 -   Frequency Counter
 -   Multiple Pointers
@@ -196,11 +196,11 @@ Some common problem solving patterns are:
 -   Divide and Conquer
 -   Recursion
 
-These patterns involve creating and manipulating data structures and algorithms to solve problems more efficiently and effectively. They are often used in interviews and technical assessments as a way to test a candidate's problem solving skills.
+These patterns involve creating and manipulating data structures and algorithms to solve problems more efficiently and effectively. They are often used in interviews and technical assessments as a way to test a candidate's problem-solving skills.
 
 ### Frequency Counter
 
-Frequency counter is a technique used in algorithm design to count the frequency of elements in a data structure. It is often used to optimize the performance of an algorithm by avoiding the use of costly operations such as searching or sorting.
+The frequency counter is a technique used in algorithm design to count the frequency of elements in a data structure. It is often used to optimize the performance of an algorithm by avoiding the use of costly operations such as searching or sorting.
 
 To implement a frequency counter, you can create an object or map to store the frequencies of the elements in the data structure. You can then iterate through the data structure and increment the count for each element in the object or map.
 
@@ -224,7 +224,7 @@ You can then use this object to quickly look up the frequency of any element in 
 
 Frequency counters are often used in conjunction with other techniques such as multiple pointers or sliding windows to solve problems efficiently.
 
-For example here's a problem that could be resolved using the frequency counter pattern:
+Here's a problem that could be solved using the frequency counter pattern:
 
 Write a function `same` that takes in two arrays of numbers `arrOne` and `arrTwo`. The function should return a boolean indicating whether or not the elements in `arrOne` are the squares of the elements in `arrTwo`.
 
@@ -296,7 +296,7 @@ function same(arr1: number[], arr2: number[]): boolean {
 
 The function has a time complexity of O(n). This is because it only includes a single loop through each of the arrays. The `frequencyCounter1` and `frequencyCounter2` objects are built in O(n) time by iterating through `arr1` and `arr2` respectively and adding each element to the corresponding object. Then, the function iterates through the keys in `frequencyCounter1` and checks the corresponding values in `frequencyCounter2`. Since there are a constant number of keys in frequencyCounter1, the time complexity of this step is O(1). Therefore, the overall time complexity of the second function is O(n).
 
-Another example with frequency counter:
+Another example:
 
 Write a function `validAnagram` that takes in two strings, `str1` and `str2`, and returns a boolean indicating whether or not `str1` is an anagram of `str2`. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
@@ -335,7 +335,7 @@ function validAnagram(str1: string, str2: string): boolean {
 
 The function has a time complexity of O(n). This is because it includes two loops that each iterate through the characters in the strings. The `frequencyCount1` and `frequencyCount2` objects are built in O(n) time by iterating through `str1` and `str2` respectively and adding each character to the corresponding object. Then, the function iterates through the keys in `frequencyCount1` and checks the corresponding values in `frequencyCount2`. Since there are a constant number of keys in `frequencyCount1`, the time complexity of this step is O(1). Therefore, the overall time complexity of the first function is O(n).
 
-Another approach to solve this problem:
+Another approach to solving this problem:
 
 ```ts
 function validAnagram(str1: string, str2: string): boolean {
@@ -378,7 +378,7 @@ The function also has a time complexity of O(n). This is because it includes two
 
 ## Multiple Pointers
 
-The multiple pointers pattern involves using two or more pointers to solve a problem by traversing a data structure, such as an array or a linked list. The pointers typically move towards each other or towards the middle of the data structure, and the algorithm performs some operation on the values at the pointers' current positions.
+The multiple pointers pattern involves using two or more pointers to solve a problem by traversing a data structure, such as an array or a linked list. The pointers typically move toward each other or towards the middle of the data structure, and the algorithm performs some operation on the values at the pointers' current positions.
 
 Here's an example of how the multiple pointers pattern can be used to solve a problem:
 
@@ -392,9 +392,27 @@ Suppose we want to find the first pair of elements in an array that sums to a ta
 3. If the loop terminates without finding a pair that sums to the target value, return null or some other sentinel value indicating that no such pair was found.
    Using the multiple pointers pattern can be an efficient way to solve certain problems, as it allows us to traverse the data structure in a single pass, rather than needing to perform multiple passes or use nested loops. It can also make the solution more readable and easier to understand, as it clearly defines the roles of the different pointers and the logic of the algorithm.
 
-For example here's a problem that could be resolved using the multiple pointers pattern:
+One of the key benefits of the multiple-pointers pattern is that it can help reduce the time complexity of a problem, as it allows for a linear or logarithmic time complexity solution in some cases. However, this pattern is only effective when the array is sorted, as the pointers rely on the ordering of the elements to work correctly.
 
-Write a function `sumZero` that takes in an **sorted** array of integers `arr` and returns the first pair of elements that sum to zero, if one exists. If no such pair is found, the function should return an empty array.
+If the array is not sorted, the pointers may not be able to move through the array in the correct order, leading to incorrect results or an infinite loop. Therefore, it is important to ensure that the input array is sorted before using the multiple-pointers pattern to solve a problem.
+
+For example, consider the following array of integers:
+
+```json
+[3, 7, 1, 5, 2, 4]
+```
+
+If we want to find a pair of elements that sum to a target value using the multiple pointers pattern, we would first need to sort the array in ascending order:
+
+```json
+[1, 2, 3, 4, 5, 7]
+```
+
+Only then can we use the multiple pointers pattern to find a pair of elements that sum to the target value. Without sorting the array first, the pointers may not be able to find the correct pair of elements, even if they exist in the array.
+
+Here's a problem that could be solved using the multiple pointers pattern:
+
+Write a function `sumZero` that takes in a **sorted** array of integers `arr` and returns the first pair of elements that sum to zero, if one exists. If no such pair is found, the function should return an empty array.
 
 **Without** Multiple Pointers:
 
@@ -456,44 +474,39 @@ function sumZero(arr: number[]): number[] {
 
 The time complexity of the `sumZero` function is O(n), or linear. This is because the function traverses the input array only once, using two pointers that move towards each other until they meet or pass each other. The number of iterations of the loop is directly proportional to the length of the array, so the time complexity is linear.
 
-This is a significant improvement over the previous version of the `sumZero` function, which had a time complexity of O(n^2) (quadratic) due to the nested loop. Using the multiple pointers pattern allowed us to solve the problem with a single pass through the array, making the solution more efficient for larger inputs.
+This is a significant improvement over the previous version of the `sumZero` function, which had a time complexity of O(n^2) (quadratic) due to the nested loop. Using the multiple-pointers pattern allowed us to solve the problem with a single pass through the array, making the solution more efficient for larger inputs.
+
+Implement a function called `countUniqueValues` that takes in a single parameter, `arr`, which is a **sorted** array of integers. The function should return the number of unique values in the array.
+
+Another example:
 
 ```ts
-// my approach
-
 function countUniqueValues(arr: number[]): number {
-    let pointer = 0;
-    let count = 0;
-    while (pointer < arr.length) {
-        if (arr[pointer] === arr[pointer + 1]) {
-            pointer++;
-        } else {
-            count++;
-            pointer++;
-        }
-    }
-
-    return count;
-}
-
-// steele approach
-
-function countUniqueValues(arr: number[]): number {
+    // Return 0 if the array is empty.
     if (arr.length === 0) {
         return 0;
     }
 
+    // Initialize a counter and a pointer to the first element of the array.
     let i = 0;
-
+    // Iterate through the array, starting from the second element.
     for (let j = 1; j < arr.length; j++) {
+        // If the current element is different from the element at the pointer,
+        // increment the counter and update the value at the pointer.
         if (arr[i] !== arr[j]) {
             i++;
             arr[i] = arr[j];
         }
     }
+
+    // Return the final value of the counter, plus 1.
     return i + 1;
 }
 ```
+
+The time complexity of the `countUniqueValues` function is O(n), where n is the length of the input array.
+
+The function performs a single loop through the array, and the time taken to iterate through the array is directly proportional to the size of the array. Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
 ### sliding window
 
