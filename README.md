@@ -508,58 +508,98 @@ The time complexity of the `countUniqueValues` function is O(n), where n is the 
 
 The function performs a single loop through the array, and the time taken to iterate through the array is directly proportional to the size of the array. Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
-### sliding window
+### Sliding Window
 
-O(n^2)
+The sliding window pattern is a technique that involves iterating through an array and maintaining a "window" of elements that meet certain conditions. The window is typically defined by two pointers, one at the start of the window and one at the end.
 
-```typescript
-function maxSubArraySum(arr: number[], n: number): number | null {
-    if (arr.length < n) {
-        return null;
-    }
+The sliding window pattern is often used to solve problems that involve finding a subarray or subsequence of elements that meet certain conditions, such as having a maximum or minimum sum, length, or average.
 
-    let max = -Infinity;
+To use the sliding window pattern, we first initialize the start and end pointers to the beginning of the array. Then, we iterate through the array and update the window by moving the end pointer forward until the window meets the desired conditions. Once the window is valid, we can perform any necessary operations on the elements within the window, such as calculating the sum or finding the minimum element.
 
-    for (let i = 0; i < arr.length - n + 1; i++) {
-        let tmp = 0;
-        for (let j = 0; j < n; j++) {
-            tmp += arr[i + j];
-        }
+After performing these operations, we can then move the start pointer forward to "slide" the window along the array and repeat the process until we have covered the entire array.
 
-        if (tmp > max) {
-            max = tmp;
-        }
-    }
-    return max;
-}
-```
+Here is an example of using the sliding window pattern to find the maximum sum subarray of a given array:
 
-O(n)
-
-sliding window:
-
-```typescript
-function maxSubArraySum(arr: number[], n: number): number | null {
-    if (arr.length < n) {
-        return null;
-    }
-
+```ts
+function maxSumSubarray(arr: number[]): number {
+    // Initialize the start and end pointers to the beginning of the array.
+    let start = 0;
+    let end = 0;
+    // Initialize a variable to store the maximum sum.
     let maxSum = 0;
-    let tmpSum = 0;
+    // Initialize a variable to store the current sum.
+    let currSum = 0;
 
-    for (let i = 0; i < n; i++) {
-        maxSum += arr[i];
+    // Iterate through the array.
+    while (end < arr.length) {
+        // Add the current element to the current sum.
+        currSum += arr[end];
+        // Update the maximum sum if necessary.
+        maxSum = Math.max(maxSum, currSum);
+        // If the current sum is negative, reset it to 0 and move the start pointer to the next element.
+        if (currSum < 0) {
+            currSum = 0;
+            start = end + 1;
+        }
+        // Move the end pointer to the next element.
+        end++;
     }
 
-    tmpSum = maxSum;
-
-    for (let i = n; i < arr.length; i++) {
-        tmpSum = tmpSum - arr[i - n] + arr[i];
-        maxSum = Math.max(tmpSum, maxSum);
-    }
+    // Return the maximum sum.
     return maxSum;
 }
 ```
+
+The time complexity of the sliding window pattern is typically O(n), where n is the length of the input array. This makes it a relatively efficient solution for finding subarrays or subsequences that meet certain conditions.
+
+Here is another example of using the sliding window pattern to find the longest contiguous subarray of a given array that has a maximum average value.
+The function takes in an array of integer `arr`, and an integer `k` as input and returns the longest contiguous subarray of the array that has a maximum average value among all subarrays of length `k`.
+
+```ts
+function maxAvgSubarray(arr: number[], k: number): number[] {
+    // Initialize the start and end pointers to the beginning of the array.
+    let start = 0;
+    let end = 0;
+    // Initialize a variable to store the maximum average.
+    let maxAvg = -Infinity;
+    // Initialize a variable to store the current sum.
+    let currSum = 0;
+    // Initialize variables to store the start and end indices of the maximum average subarray.
+    let maxStart = 0;
+    let maxEnd = 0;
+
+    // Iterate through the array.
+    while (end < arr.length) {
+        // Add the current element to the current sum.
+        currSum += arr[end];
+        // If the current window is at least k elements long, update the maximum average if necessary.
+        if (end - start + 1 >= k) {
+            let avg = currSum / (end - start + 1);
+            if (avg > maxAvg) {
+                maxAvg = avg;
+                maxStart = start;
+                maxEnd = end;
+            }
+        }
+        // If the current sum is negative, reset it to 0 and move the start pointer to the next element.
+        if (currSum < 0) {
+            currSum = 0;
+            start = end + 1;
+        }
+        // Move the end pointer to the next element.
+        end++;
+    }
+
+    // Return the maximum average subarray.
+    return arr.slice(maxStart, maxEnd + 1);
+}
+```
+
+The time complexity of the `maxAvgSubarray` function is O(n), where n is the length of the input array.
+
+The function performs a single loop through the array, and the time taken to iterate through the array is directly proportional to the size of the array. The time taken to update the maximum average and the start and end indices of the maximum average subarray is a constant time operation, as it does not depend on the size of the array.
+
+Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
 ### divide and conquer
 
