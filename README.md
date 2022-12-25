@@ -601,47 +601,91 @@ The function performs a single loop through the array, and the time taken to ite
 
 Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
-### divide and conquer
+### Divide-and-Conquer
 
-Linear search
+The divide-and-conquer pattern is a common algorithmic technique used to solve problems by dividing them into smaller subproblems, solving those subproblems, and then combining the solutions to the subproblems to solve the original problem.
 
-O(n)
+This pattern involves dividing the problem into smaller subproblems, solving each of those subproblems recursively, and then combining the solutions to the subproblems to solve the original problem.
+
+There are several benefits to using the divide-and-conquer pattern:
+
+It can lead to more efficient algorithms, as the time complexity of many divide-and-conquer algorithms is often much better than other algorithms that solve the same problem.
+
+It can be easier to design and implement divide-and-conquer algorithms, as the subproblems can often be solved independently and in parallel.
+
+The divide-and-conquer pattern is well-suited to problems that can be naturally divided into smaller subproblems, such as sorting and searching algorithms.
+
+Some common examples of divide-and-conquer algorithms include merge sort, quick sort, and binary search.
+
+Here's a problem that could be solved using the divide-and-conquer pattern:
+
+Implement a function `search` that takes in a **sorted** array of integers `sortedArr` and a value `value` and returns the index of `value` in the array, or `-1` if it is not present.
+
+**Without** divide-and-conquer:
 
 ```typescript
-function linearSearch(arr, val): number {
+function linearSearch(sortedArr: number[], value: number): number {
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === val) {
             return i;
         }
     }
+
     return -1;
 }
 ```
 
-divide and conquer:
+The complexity of the `linearSearch` function is O(n), where n is the length of the array `sortedArr`. This is because the function performs a linear search through the array, meaning it will take longer to run as the size of the array increases.
+In the worst-case scenario, where the value being searched for is not present in the array, the function will have to iterate through the entire array to determine that it is not present. This means that the running time of the function will be directly proportional to the size of the array.
 
-binarySearch
+**With** divide-and-conquer (Binary Search):
 
-O (Log n)
+The binary search algorithm is an efficient algorithm for searching for a specific value in a sorted array. It works by repeatedly dividing the search space in half until the value being searched for is found or it is determined that the value is not present in the array.
 
-```typescript
+The function begins by setting the variables `min` and `max` to the first and last indices of the array, respectively. It then enters a loop that continues as long as `min` is less than or equal to `max`.
+
+Inside the loop, the function calculates the `middle` index of the current search space by taking the floor of the average of `min` and `max`. It then checks if the value at the `middle` index is less than, greater than, or equal to the value being searched for:
+
+-   If it is less than the value, the search space is updated to the indices after the `middle` index, by setting `min` to `middle` + 1.
+-   If it is greater than the value, the search space is updated to the indices before the `middle` index, by setting `max` to `middle` - 1.
+-   If it is equal to the value, the function returns the index.
+
+```ts
 function binarySearch(sortedArr: number[], value: number): number {
+    // Set the initial search space to the entire array
     let min = 0;
     let max = sortedArr.length - 1;
 
+    // Continue searching as long as the search space is not empty
     while (min <= max) {
+        // Calculate the middle index of the current search space
         let middle = Math.floor((min + max) / 2);
+
+        // Check if the value at the middle index is less than, greater than, or equal to the value being searched for
         if (sortedArr[middle] < value) {
+            // Update the search space to the indices after the middle index
             min = middle + 1;
         } else if (sortedArr[middle] > value) {
+            // Update the search space to the indices before the middle index
             max = middle - 1;
         } else {
+            // Return the index if the value is found
             return middle;
         }
     }
+
+    // Return -1 if the value is not found
     return -1;
 }
 ```
+
+The complexity of the `binarySearch` function is O(log n), where n is the length of the array `sortedArr`. This means that the running time of the function increases logarithmically with the size of the array.
+
+This is because the function reduces the search space by half with each iteration. For example, if the array has 8 elements, the first iteration will check the middle element, which reduces the search space to either the first 4 elements or the last 4 elements. The next iteration will check the middle element of this reduced search space, which reduces the search space to either the first 2 elements or the last 2 elements. This process continues until the value is found or it is determined that the value is not present in the array.
+
+In the worst-case scenario, where the value being searched for is not present in the array, the function will have to perform log n iterations to determine this. This is much more efficient than a linear search, which would require n iterations in the worst-case scenario.
+
+Overall, the binary search algorithm is a very efficient algorithm for searching through sorted arrays and is much faster than a linear search for larger arrays.
 
 ## Recursion
 
