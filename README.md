@@ -687,97 +687,125 @@ In the worst-case scenario, where the value being searched for is not present in
 
 Overall, the binary search algorithm is a very efficient algorithm for searching through sorted arrays and is much faster than a linear search for larger arrays.
 
-## Recursion
+### Recursion
 
-a process that calls itself
+Recursion is a technique in which a function calls itself repeatedly until a certain condition is met. It can be a useful way to solve problems that can be divided into smaller subproblems, or that involve repeating a process with slightly different inputs each time.
 
-quick note around call stack
+The key to understanding recursion is to identify the base case, which is the point at which the recursion stops. The base case is often a simple condition that can be checked directly, such as the input being equal to a certain value.
 
-```typescript
+For example, consider a function that calculates the factorial of a number. The factorial of a number is the product of all the integers from 1 up to that number. For example, the factorial of 5 is 1 \* 2 \* 3 \* 4 \* 5 = 120.
+
+Here is a recursive function that calculates the factorial of a number:
+
+```ts
+function factorial(n: number): number {
+    if (n == 1) {
+        return 1; // base case
+    }
+
+    return n * factorial(n - 1); // recursive case
+}
+```
+
+In this function, the base case is the condition n == 1, which is checked at the beginning of the function. If n is equal to 1, the function returns 1. Otherwise, the function calls itself with an input of n - 1, and the result of this recursive call is multiplied by n and returned.
+
+The recursion continues until the base case is reached, at which point the function stops calling itself and the result is returned up the chain of recursive calls.
+
+For example, if we call `factorial(5)`, the function will call itself with the input 4, then with the input 3, then 2, and finally 1. When the input is 1, the base case is reached and the function returns 1, which is then multiplied by 2 and returned, which is then multiplied by 3 and returned, and so on, until the final result of 120 is returned.
+
+#### Understanding the Call Stack
+
+The call stack is a data structure that keeps track of the functions that are currently executing. It is used to store the execution context of each function, which includes the local variables and the current position in the code.
+
+When a function is called, its execution context is pushed onto the top of the call stack. When the function returns, its execution context is popped off the top of the call stack. This process continues as the program executes, with the call stack growing and shrinking as functions are called and returned from.
+
+When a recursive function is called, a new execution context is added to the top of the call stack for each recursive call. This can lead to the call stack growing very large, especially if the recursion is not properly controlled.
+
+Consider the following example:
+
+```ts
 function wakeUp() {
-    // callStack [wakeUp]
     takeShower();
     eatBreakfast();
     console.log("Ready to go ... ");
-} // callStack []
+}
 
 function takeShower() {
-    // callStack [takeShower, wakeUp]
     console.log("taking shower");
-} // callStack[wakeUp]
+}
 
 function eatBreakfast() {
-    // callStack [eatBreakfast, wakeUp]
     const meal = cookBreakFast();
     console.log(`eating ${meal}`);
-} // callStack [wakeUp]
+}
 
 function cookBreakFast() {
-    // callStack [cookBreakFast, eatBreakfast, wakeUp]
     const meals = ["Cheese", "Protein Shake", "Coffee"];
-    return meals[Math.floor(Math.random() * meals.length)]; // callStack [eatBreakFast, wakeUp]
+    return meals[Math.floor(Math.random() * meals.length)];
 }
 
 wakeUp();
 ```
 
-two essential part of recursive functions
+Here's how the call stack works:
 
--   base case: end of the line
--   different input: recursive should call by a different piece of data
+When the `wakeUp` function is called, it is added to the call stack, which is a data structure that keeps track of the functions that are currently executing. The call stack grows and shrinks as functions are called and returned from.
 
-```typescript
-function sumRange(num: number) {
-    if (num === 1) return 1;
-    return num + sumRange(num - 1);
-}
+As the `wakeUp` function executes, it calls the `takeShower` and `eatBreakfast` functions. These functions are added to the call stack on top of the `wakeUp` function, so the call stack now looks like this:
 
-function factorial(num: number) {
-    if (num === 1) return 1;
-    return num * factorial(num - 1);
-}
+```txt
+[wakeUp][(takeShower, wakeUp)]
 ```
 
-helper method recursion vs pure recursion
+When the `takeShower` function finishes executing, it is removed from the call stack, and the call stack now looks like this:
 
-```typescript
-// helper method recursion approach
-function collectOdd(arr: number[]) {
-    const result = [];
+```txt
+[wakeUp][(eatBreakfast, wakeUp)]
+```
 
-    function helper(helperArr: number[]) {
-        if (!helperArr.length) {
-            return;
-        }
+The `eatBreakfast` function then calls the `cookBreakfast` function, which is added to the call stack on top of the `eatBreakfast` and `wakeUp` functions:
 
-        if (helperArr[0] % 2 !== 0) {
-            result.push(helperArr[0]);
-        }
+```txt
+[wakeUp][(eatBreakfast, wakeUp)][(cookBreakfast, eatBreakfast, wakeUp)]
+```
 
-        helper(helperArr.slice(1));
-    }
+When the `cookBreakfast` function finishes executing, it is removed from the call stack, leaving the call stack looking like this:
 
-    helper(arr);
+```txt
+[wakeUp][(eatBreakfast, wakeUp)]
+```
 
-    return result;
-}
+Finally, when the `eatBreakfast` and `wakeUp` functions finish executing, they are also removed from the call stack, leaving the call stack empty.
 
-// pure recursion approach
+Here is how `factorial` function calculates the factorial of a number:
+
+In the `factorial` function, the base case is the condition n == 1, which is checked at the beginning of the function. If n is equal to 1, the function returns 1. Otherwise, the function calls itself with an input of n - 1, and the result of this recursive call is multiplied by n and returned.
+
+Each time the `factorial` function is called, a new execution context is added to the top of the call stack. If the recursion is not properly controlled, the call stack can grow very large, potentially leading to a stack overflow error. To avoid this, it is important to ensure that the base case is reached and the recursion terminates.
+
+Write a function called `collectOdd` that takes in an array of numbers and returns a new array containing only the odd numbers from the input array. The function should use recursion to achieve this, and should not modify the original input array.
+
+```ts
 function collectOdd(arr: number[]): number[] {
     let result = [];
 
+    // base case: if the input array is empty, return the empty result array
     if (!arr.length) {
         return result;
     }
 
+    // if the first element in the array is odd, add it to the result array
     if (arr[0] % 2 !== 0) {
         result.push(arr[0]);
     }
 
+    // recursive case: call the function with the result array concatenated with the rest of the input array
     result = collectOdd(result.concat(arr.slice(1)));
     return result;
 }
 ```
+
+This function has a time complexity of O(n), where n is the length of the input array. This is because the function processes each element of the array once, and the time taken to do so is constant. The function also makes one recursive call for each element in the array, but since the size of the input array decreases by 1 on each call, the total number of recursive calls is also O(n). Therefore, the overall time complexity of the function is O(n).
 
 ## Searching Algorithms
 
@@ -787,7 +815,7 @@ _indexOf() includes() find() findIndex()_ all this methods doing linear search b
 
 O(n)
 
-```typescript
+```ts
 function linearSearch(arr: number[], value: number): number {
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === value) {
@@ -802,7 +830,7 @@ function linearSearch(arr: number[], value: number): number {
 
 O(Log n)
 
-```typescript
+```ts
 function binarySearch(sortedArr: number[], value: number): number {
     let left = 0;
     let right = sortedArr.length - 1;
