@@ -809,11 +809,13 @@ This function has a time complexity of O(n), where n is the length of the input 
 
 ## Searching Algorithms
 
-### linear search
+Searching algorithms are techniques for finding a particular item in a collection of items. They are an important part of computer science and are used to perform a wide variety of tasks, such as finding a specific file on a computer, searching for information on the internet, or locating a particular piece of data in a database.
 
-_indexOf() includes() find() findIndex()_ all this methods doing linear search behind the scene
+There are several different types of search algorithms, including linear search, binary search, and hash table search. The linear search involves searching through a list of items one by one until the desired item is found. Binary search is a more efficient method that involves dividing a list in half and repeatedly narrowing down the search to a smaller and smaller portion of the list until the desired item is found. Hash table search uses a data structure called a hash table to quickly locate the desired item.
 
-O(n)
+The efficiency of a search algorithm depends on the structure of the data being searched and the specific search method being used. For example, linear search is less efficient than binary search when searching through a large list of items, but it may be more efficient when searching through a small list or when the items are not in any particular order.
+
+### Linear Search
 
 ```ts
 function linearSearch(arr: number[], value: number): number {
@@ -826,52 +828,153 @@ function linearSearch(arr: number[], value: number): number {
 }
 ```
 
-### binary search
+The complexity of the function `linearSearch` is O(n), or linear time. This means that the time it takes for the function to complete is directly proportional to the size of the input array.
 
-O(Log n)
+In this function, the time complexity is determined by the for loop, which will run once for each element in the array. If the array has n elements, the loop will run n times. As a result, the time taken to complete the function will increase linearly with the size of the input array.
+
+In general, linear search algorithms have a time complexity of O(n), meaning that they are less efficient than some other types of search algorithms, such as binary search, which has a time complexity of O(log n). However, linear search is often used when the array is small or when the elements are not in a particular order, as it is relatively simple to implement and does not require any additional data structures.
+
+The `indexOf()` method in JavaScript is used to search for an element in an array and returns its index. If the element is not found, it returns -1. This method uses a linear search algorithm to search for the element.
 
 ```ts
-function binarySearch(sortedArr: number[], value: number): number {
-    let left = 0;
-    let right = sortedArr.length - 1;
+const fruits = ["apple", "banana", "mango", "orange"];
 
-    while (left <= right) {
-        const middle = Math.round((right + left) / 2);
-
-        if (sortedArr[middle] > value) {
-            right = middle - 1;
-        } else if (sortedArr[middle] < value) {
-            left = middle + 1;
-        } else {
-            return middle;
-        }
-    }
-    return -1;
-}
+console.log(fruits.indexOf("banana")); // Output: 1
+console.log(fruits.indexOf("grapes")); // Output: -1
 ```
 
-### naive string search
+The `includes()` method in JavaScript is similar to the `indexOf()` method and is used to check if an element is present in an array. It returns a Boolean value (true or false) indicating whether the element was found or not. This method also uses a linear search algorithm to search for the element.
 
-O(n^2)
+```ts
+const fruits = ["apple", "banana", "mango", "orange"];
 
-```typescript
+console.log(fruits.includes("banana")); // Output: true
+console.log(fruits.includes("grapes")); // Output: false
+```
+
+The `find()` and `findIndex()` methods in JavaScript are used to search for an element in an array that satisfies a given condition. They use a linear search algorithm to search for the element.
+
+The `find()` method returns the value of the first element in the array that satisfies the given condition, or undefined if no element is found.
+
+The `findIndex()` method returns the index of the first element in the array that satisfies the given condition, or -1 if no element is found.
+
+Here is an example of using the `find()` and `findIndex()` methods to search for an element in an array:
+
+```ts
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Find the first even number
+const evenNumber = numbers.find((num) => num % 2 === 0);
+console.log(evenNumber); // Output: 2
+
+// Find the index of the first even number
+const evenNumberIndex = numbers.findIndex((num) => num % 2 === 0);
+console.log(evenNumberIndex); // Output: 1
+```
+
+The `find()` and `findIndex()` methods take a callback function as an argument, which is used to specify the condition that the element must satisfy. In the example above, the callback function checks if the element is even by checking if it is divisible by 2.
+
+Here's an example of a problem that could be solved using linear search:
+
+Write a function `naiveStringSearch` that takes in two strings, `long` and `pattern`, and returns the number of occurrences of pattern in long. The function should use a naive string search algorithm to search for patterns in `long`.
+
+```ts
 function naiveStringSearch(long: string, pattern: string): number {
+    // Initialize a counter to keep track of the number of occurrences of pattern in long
     let count = 0;
 
+    // Loop through each character in long
     for (let i = 0; i < long.length; i++) {
+        // Loop through each character in pattern
         for (let j = 0; j < pattern.length; j++) {
+            // If the characters at the current indices in long and pattern do not match, break out of the inner loop
             if (pattern[j] !== long[i + j]) {
                 break;
             }
+            // If we have reached the last character in pattern and all characters have matched, increment the counter
             if (j === pattern.length - 1) {
                 count++;
             }
         }
     }
 
+    // Return the final count
     return count;
 }
 ```
+
+The time complexity of this function is O(n^2), as it uses two nested loops to search for the pattern in the long string. The outer loop iterates through each character in the long string, and the inner loop compares each character in the pattern to the corresponding character in the long string. This means that the time taken to search for the pattern increases quadratically with the length of the long string and the length of the pattern. This makes the function less efficient for larger strings compared to other string search algorithms such as the KMP algorithm. However, it is a simple algorithm that can be useful for small strings or for searching for patterns that are not too long.
+
+One way to improve the efficiency of the `naiveStringSearch` function is to use the Knuth-Morris-Pratt (KMP) algorithm, which has a time complexity of O(n + m) where n is the length of the long string and m is the length of the pattern.
+
+```ts
+function kmpStringSearch(long: string, pattern: string): number {
+    // Initialize a counter to keep track of the number of occurrences of pattern in long
+    let count = 0;
+
+    // Calculate the prefix table for the pattern
+    const prefixTable = computePrefixTable(pattern);
+
+    // Initialize the variables for the main loop
+    let i = 0;
+    let j = 0;
+
+    // Main loop: continue until we have reached the end of the long string
+    while (i < long.length) {
+        // If the characters at the current indices in long and pattern match, move to the next character in both strings
+        if (long[i] === pattern[j]) {
+            i++;
+            j++;
+        }
+
+        // If we have reached the end of the pattern, increment the counter and reset the pattern index to the value in the prefix table
+        if (j === pattern.length) {
+            count++;
+            j = prefixTable[j - 1];
+        }
+        // If the characters do not match, reset the pattern index to the value in the prefix table
+        else if (i < long.length && long[i] !== pattern[j]) {
+            if (j !== 0) {
+                j = prefixTable[j - 1];
+            }
+            // If the pattern index is already 0, move to the next character in the long string
+            else {
+                i++;
+            }
+        }
+    }
+
+    // Return the final count
+    return count;
+}
+
+// Helper function to compute the prefix table for the KMP algorithm
+function computePrefixTable(pattern: string): number[] {
+    const prefixTable = [0];
+    let j = 0;
+
+    for (let i = 1; i < pattern.length; i++) {
+        if (pattern[i] === pattern[j]) {
+            prefixTable[i] = j + 1;
+            j++;
+        } else {
+            while (j > 0 && pattern[i] !== pattern[j]) {
+                j = prefixTable[j - 1];
+            }
+            if (pattern[i] === pattern[j]) {
+                prefixTable[i] = j + 1;
+                j++;
+            } else {
+                prefixTable[i] = 0;
+            }
+        }
+    }
+
+    return prefixTable;
+}
+```
+
+The KMP algorithm uses a prefix table to keep track of the longest proper prefix that is also a suffix of the pattern. This allows it to efficiently skip over portions of the pattern when searching for a match in the long string, which reduces the time complexity from O(n \* m) to O(n + m).
 
 ## Sorting Algorithms
 
