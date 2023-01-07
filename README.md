@@ -978,261 +978,254 @@ The KMP algorithm uses a prefix table to keep track of the longest proper prefix
 
 ## Sorting Algorithms
 
-### array.sort()
+Sorting algorithms are a set of instructions that take in a list of items and arrange them in a particular order. The order can be ascending (smallest to largest), descending (largest to smallest), or some other predetermined order. Sorting algorithms are used in many different contexts, including data analysis, computer science, and everyday life. Some common examples of sorting algorithms include bubble sort, insertion sort, selection sort, merge sort, and quick sort. These algorithms differ in terms of their efficiency and the amount of work they do, and they have different use cases depending on the needs of the situation. In general, sorting algorithms are an important tool for organizing and making sense of data.
 
-array.sort(cb?) will turn all values to _string_ then sort it based on its _unicode_
+There are several ways to categorize sorting algorithms based on their time complexity, or the amount of time it takes for the algorithm to run. One way to categorize them is by the number of comparisons they make:
 
-```typescript
-["a", "c", "b", "f", "d"].sort(); // (5) ["a", "b", "c", "d", "f"]
-[1, 10, 6, 8, 2, 3, 5].sort(); //(7) [1, 10, 2, 3, 5, 6, 8]
+-   O(n) sorting algorithms: These algorithms have a time complexity of O(n), meaning that the running time grows linearly with the size of the input. Examples of O(n) sorting algorithms include **radix sort**.
 
-/* 
-also receive callback function by two arguments:
-    a: previous number 
-    b: next number 
+-   O(nlogn) sorting algorithms: These algorithms have a time complexity of O(nlogn), meaning that the running time grows at a rate of n\*log(n) with the size of the input. Examples of O(nlogn) sorting algorithms include **merge sort** and **quick sort**.
 
-*/
-// if callback return NEGATIVE number a will placed before b
-[1, 10, 6, 8, 2, 3, 5].sort((a, b) => a - b); // (7) [1, 2, 3, 5, 6, 8, 10]
+-   O(n^2) sorting algorithms: These algorithms have a time complexity of O(n^2), meaning that the running time grows at a rate of n\*n with the size of the input. Examples of O(n^2) sorting algorithms include **bubble sort**, **insertion sort**, and **selection sort**.
 
-// if callback return POSITIVE number a will placed after b
-(7)[(1, 2, 3, 5, 6, 8, 10)].sort((a, b) => b - a); // (7) [10, 8, 6, 5, 3, 2, 1]
+-   O(n^3): and higher sorting algorithms: These algorithms have a time complexity of O(n^3) or higher, meaning that the running time grows at a rate of nnn or higher with the size of the input. These algorithms are generally less efficient than the other categories and are not commonly used.
 
-// if callback return ZERO a and b will be placed, at the same position
-```
+[visualgo.net](https://visualgo.net/en/sorting) is a great resource for visualizing sorting algorithms and their time complexities.
 
-## Quadric
+Following is a table of the most common sorting algorithms and their time complexities:
 
-### bubble sort
+|   Algorithm    | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity (Worst) |
+| :------------: | :--------------------: | :-----------------------: | :---------------------: | :----------------------: |
+|  Bubble Sort   |          O(n)          |          O(n^2)           |         O(n^2)          |           O(1)           |
+| Selection Sort |         O(n^2)         |          O(n^2)           |         O(n^2)          |           O(1)           |
+| Insertion Sort |          O(n)          |          O(n^2)           |         O(n^2)          |           O(1)           |
+|   Merge Sort   |       O(n Log n)       |        O(n Log n)         |       O(n Log n)        |           O(n)           |
+|   Quick Sort   |       O(n Log n)       |        O(n Log n)         |         O(n^2)          |         O(Log n)         |
+|   Radix Sort   |         O(nk)          |           O(nk)           |          O(nk)          |         O(n + k)         |
 
-![](./assets/Sorting_bubblesort_anim.gif)
+It's worth noting that these time complexities are just rough estimates and can vary depending on the specific implementation of the algorithm. Additionally, other factors can affect the running time of a sorting algorithm, such as the speed of the computer it is running on and the specific characteristics of the input data.
 
-general: O(n^2)
-nearlySortedData: O(n)
+### Bubble Sort
 
-```typescript
-function bubbleSort(arr: number[]): number[] {
+Bubble sort is a simple sorting algorithm that repeatedly iterates through a list of items, compares adjacent items, and swaps them if they are in the wrong order.
+
+![Bubble Sort GIF](./assets/bubblesort.gif)
+
+Here is an example of bubble sort implemented in TypeScript:
+
+```ts
+function bubbleSort(arr: number[]) {
     for (let i = 0; i < arr.length; i++) {
-        let noSwap = true;
-        for (let j = 0; j < arr.length - i; j++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
-                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-                noSwap = false;
+                // Swap elements
+                let temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
             }
         }
-        if (noSwap) break;
     }
     return arr;
 }
 
-// or
-
-function bubbleSort(arr: number[]): number[] {
-    for (let i = arr.length; i > 0; i--) {
-        let noSwap = true;
-        for (let j = 0; j < i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-                noSwap = false;
-            }
-        }
-        if (noSwap) break;
-    }
-    return arr;
-}
+// Test the function
+console.log(bubbleSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### selection sort
+In this implementation, the function takes in an array of numbers and uses two nested for loops to iterate through the array. The outer loop starts at the beginning of the array and moves from left to right, while the inner loop starts at the second element and moves from left to right, comparing each element to its left neighbor. If the left neighbor is larger, the two elements are swapped. This process is repeated until the array is sorted.
 
-![](./assets/Selection-Sort-Animation.gif)
+Bubble sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is simple to implement and can be a good choice for small lists.
 
-O(n^2)
+### Selection Sort
 
-```typescript
+Selection sort is a sorting algorithm that works by repeatedly finding the minimum element in a list and swapping it with the first element in the unsorted portion of the list.
+
+![Selection Sort GIF](./assets/selectionsort.gif)
+
+Here is an example of selection sort implemented in TypeScript:
+
+```ts
 function selectionSort(arr: number[]) {
-    for (let i = 0; i < arr.length; i++) {
-        let min = i;
+    for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
         for (let j = i + 1; j < arr.length; j++) {
-            if (arr[j] < arr[min]) {
-                min = j;
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
             }
         }
-        if (min !== i) {
-            [arr[i], arr[min]] = [arr[min], arr[i]];
-        }
+        // Swap elements
+        let temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
     }
     return arr;
 }
+
+// Test the function
+console.log(selectionSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### insertion sort
+In this implementation, the function takes in an array of numbers and uses two nested for loops to iterate through the array. The outer loop starts at the beginning of the array and moves from left to right, while the inner loop starts at the second element and moves from left to right, searching for the minimum element. When the minimum element is found, it is swapped with the element at the current position of the outer loop.
 
-![](./assets/Insertion-sort-example-300px.gif)
+Selection sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is relatively simple to implement and can be a good choice for small lists or lists that are almost sorted.
 
-general: O(n^2)
-nearlySortedData: O(n)
+### Insertion Sort
 
-```typescript
-function insertionSort(arr) {
-    var currentVal;
+Insertion sort is a sorting algorithm that works by iterating through a list of items, taking each element in turn and inserting it into its correct position in the list.
+
+![Insertion Sort Gif](./assets/insertionsort.gif)
+
+Here is an example of insertion sort implemented in TypeScript:
+
+```ts
+function insertionSort(arr: number[]) {
     for (let i = 1; i < arr.length; i++) {
-        currentVal = arr[i];
-        for (var j = i - 1; j >= 0 && arr[j] > currentVal; j--) {
+        let current = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > current) {
             arr[j + 1] = arr[j];
+            j--;
         }
-        arr[j + 1] = currentVal;
+        arr[j + 1] = current;
     }
     return arr;
 }
+
+// Test the function
+console.log(insertionSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### quadric sorting algorithms comparison
+In this implementation, the function takes in an array of numbers and uses a for loop to iterate through the array. On each iteration, the current element is stored in a variable and the loop compares it to the elements on its left, shifting them to the right if they are larger. When the correct position for the current element is found, it is inserted into the list.
 
-|   Algorithm    | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (worst) | Space Complexity |
-| :------------: | :--------------------: | :-----------------------: | :---------------------: | :--------------: |
-|  bubble sort   |          O(n)          |          O(n^2)           |         O(n^2)          |       O(1)       |
-| insertion sort |          O(n)          |          O(n^2)           |         O(n^2)          |       O(1)       |
-| selection sort |         O(n^2)         |          O(n^2)           |         O(n^2)          |       O(1)       |
+Insertion sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is relatively simple to implement and can be a good choice for small lists or lists that are almost sorted.
 
-## Fancy
+### Merge Sort
 
-### merge sort
+Merge sort is a sorting algorithm that works by dividing a list of items into smaller sublists, sorting the sublists, and then merging the sorted sublists back together to form a sorted list.
 
-![](./assets/Merge-sort-example-300px.gif)
+![Merge Sort GIF](./assets/mergesort.gif)
 
-O(n Log n)
+Here is an example of merge sort implemented in TypeScript:
 
-```typescript
-// merge two sorted array
-function merge(arr1: number[], arr2: number[]): number[] {
-    let result = [];
+```ts
+function mergeSort(arr: number[]) {
+    if (arr.length <= 1) return arr;
+
+    const middle = Math.floor(arr.length / 2);
+    const left = arr.slice(0, middle);
+    const right = arr.slice(middle);
+
+    return merge(mergeSort(left), mergeSort(right));
+}
+
+function merge(left: number[], right: number[]) {
+    const result = [];
     let i = 0;
     let j = 0;
 
-    while (i < arr1.length && j < arr2.length) {
-        if (arr1[i] < arr2[j]) {
-            result.push(arr1[i]);
+    while (i < left.length && j < right.length) {
+        if (left[i] < right[j]) {
+            result.push(left[i]);
             i++;
         } else {
-            result.push(arr2[j]);
+            result.push(right[j]);
             j++;
         }
     }
 
-    while (i < arr1.length) {
-        result.push(arr1[i]);
-        i++;
-    }
-    while (j < arr2.length) {
-        result.push(arr2[j]);
-        j++;
-    }
-
-    return result;
+    return result.concat(left.slice(i)).concat(right.slice(j));
 }
 
-function mergeSort(arr: number[]): number[] {
-    if (arr.length <= 1) return arr;
-
-    const middle = Math.floor(arr.length / 2);
-
-    const left = mergeSort(arr.slice(0, middle));
-    const right = mergeSort(arr.slice(middle));
-
-    return merge(left, right);
-}
+// Test the function
+console.log(mergeSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### quick sort
+In this implementation, the `mergeSort` function takes in an array of numbers and divides it into smaller sublists using recursion. The `merge` function is then used to merge the sorted sublists back together. The `merge` function works by comparing the first element of each sublist and adding the smaller element to the result array. This process is repeated until one of the sublists is empty, at which point the remaining elements of the other sublist are added to the result.
 
-![](./assets/Quicksort.gif)
+Merge sort has a time complexity of O(nlogn), which means that it is more efficient than some other sorting algorithms for large lists. It is also relatively simple to implement and is a good choice for many different situations.
 
-in following implementation we always assume _first item_ as pivot
+### Quick Sort
 
-general: O(n Log n)
-sorted: O(n^2)
+Quick sort is a sorting algorithm that works by selecting a "pivot" element from the list and partitioning the other elements into two sublists based on whether they are less than or greater than the pivot. The sublists are then sorted recursively and the results are merged back together to form a sorted list.
 
-```typescript
-// place pivot in the right index and return pivot index
-function pivot(arr: number[], start = 0, end = arr.length - 1) {
-    const pivot = arr[start];
-    let pivotIndex = start;
+![Quick Search GIF](./assets/quicksort.gif)
 
-    for (let i = start + 1; i < end; i++) {
-        if (arr[i] < pivot) {
-            pivotIndex++;
-            [arr[pivotIndex], arr[i]] = [arr[i], arr[pivotIndex]];
-        }
-    }
-    [arr[start], arr[pivotIndex]] = [arr[pivotIndex], arr[start]];
-}
+Here is an example of quick sort implemented in TypeScript:
 
-function quickSort(arr: number[], start = 0, end = arr.length - 1) {
+```ts
+function quickSort(
+    arr: number[],
+    left: number = 0,
+    right: number = arr.length - 1
+) {
     if (left < right) {
-        const pivot = pivot(arr, start, end);
-
-        // left
-        quickSort(arr, start, pivotIndex - 1);
-        // right
-        quickSort(arr, pivotIndex + 1, end);
+        const pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, right);
     }
-
     return arr;
 }
+
+function partition(arr: number[], left: number, right: number) {
+    const pivot = arr[right];
+    let i = left;
+    for (let j = left; j < right; j++) {
+        if (arr[j] < pivot) {
+            // Swap elements
+            const temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+        }
+    }
+    // Swap pivot into correct position
+    arr[right] = arr[i];
+    arr[i] = pivot;
+    return i;
+}
+
+// Test the function
+console.log(quickSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### radix sort
+In this implementation, the `quickSort` function takes in an array of numbers and uses recursion to sort the sublists. The `partition` function is used to divide the list into sublists based on the pivot element. It works by iterating through the list and swapping elements that are less than the pivot into the left side of the list. The pivot is then swapped into its correct position and the index of the pivot is returned.
 
-![](./assets/3C7DDB59DF2D21B287E42A7B908409CB.gif)
+Quick sort has a time complexity of O(nlogn) on average, which means that it is generally more efficient than some other sorting algorithms for large lists. However, it can have a time complexity of O(n^2) in the worst case, which makes it less efficient than some other algorithms in certain situations.
 
-O(nk)
-n: the number of items we sorting
-k: average length of those numbers
+### Radix Sort
+
+Radix sort is a sorting algorithm that works by sorting the elements of a list based on the digits of their numeric keys, starting with the least significant digit and working toward the most significant digit.
+
+![Radix sort GIF](./assets/redixsort.gif)
+
+Here is an example of radix sort implemented in TypeScript:
 
 ```typescript
-// get the actual number at the given index
-function getDigit(num: number, i: number): number {
-    return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10;
-}
-// get number length
-function digitCount(num: number): number {
-    if (num === 0) return 1;
-    return Math.floor(Math.log10(Math.abs(num))) + 1;
-}
-
-// return number by most length
-function mostDigits(arr: number[]): number {
-    let maxDigits = 0;
-    for (let i = 0; i < arr.length; i++) {
-        maxDigits = Math.max(maxDigits, digitCount(arr[i]));
-    }
-    return maxDigits;
-}
-function radixSort(arr: number[]): number[] {
-    let maxDigitCount = mostDigits(arr);
-    for (let k = 0; k < maxDigitCount; k++) {
-        let digitBuckets = Array.from({ length: 10 }, () => []);
+function radixSort(arr: number[]) {
+    const max = Math.max(...arr);
+    let maxLength = max.toString().length;
+    for (let i = 0; i < maxLength; i++) {
+        let buckets = Array.from({ length: 10 }, () => []);
         for (let j = 0; j < arr.length; j++) {
-            digitBuckets[getDigit(arr[j], k)].push(arr[j]);
+            let digit = getDigit(arr[j], i);
+            buckets[digit].push(arr[j]);
         }
-
-        arr = [].concat(...digitBuckets);
+        arr = [].concat(...buckets);
     }
     return arr;
 }
+
+function getDigit(num: number, place: number) {
+    return Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
+}
+
+// Test the function
+console.log(radixSort([5, 2, 1, 3, 4])); // Output: [1, 2, 3, 4, 5]
 ```
 
-### fancy sorting algorithms comparison
+In this implementation, the `radixSort` function takes in an array of numbers and uses a for loop to iterate through each digit place, starting with the least significant digit. The `getDigit` function is used to extract the digit at the current place for each element. The elements are then placed into "buckets" based on their digits and the buckets are concatenated back into the array. This process is repeated until all digits have been considered.
 
-| Algorithm  | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (worst) | Space Complexity |
-| :--------: | :--------------------: | :-----------------------: | :---------------------: | :--------------: |
-| merge sort |       O(n Log n)       |        O(n Log n)         |       O(n Log n)        |       O(n)       |
-| quick sort |       O(n Log n)       |        O(n Log n)         |         O(n^2)          |     O(Log n)     |
-| radix sort |         O(nk)          |           O(nk)           |          O(nk)          |     O(n + k)     |
-
-### Overview comparison
-
-![Screenshot from 2021-03-25 12-09-22](https://user-images.githubusercontent.com/46822325/112436108-38411480-8d63-11eb-814b-d8720135d867.png)
+Radix sort has a time complexity of O(kn) where k is the number of digits in the largest element and n is the number of elements in the list. This means that it can be more efficient than some other sorting algorithms for large lists with a small range of values. However, it is not suitable for lists with elements that have a large number of digits.
 
 ## Data Structure
 
