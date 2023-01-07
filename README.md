@@ -1148,7 +1148,7 @@ Merge sort has a time complexity of O(nlogn), which means that it is more effici
 
 Quick sort is a sorting algorithm that works by selecting a "pivot" element from the list and partitioning the other elements into two sublists based on whether they are less than or greater than the pivot. The sublists are then sorted recursively and the results are merged back together to form a sorted list.
 
-![Quick Search GIF](./assets/quicksort.gif)
+![Quick Search GIF](./assets/quick_sort.gif)
 
 Here is an example of quick sort implemented in TypeScript:
 
