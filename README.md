@@ -1,7 +1,71 @@
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Algorithms and Data Structures Cheat Sheet](#algorithms-and-data-structures-cheat-sheet)
+  * [Big O Notation](#big-o-notation)
+  * [Big O Notation for some of the Objects and Arrays methods](#big-o-notation-for-some-of-the-objects-and-arrays-methods)
+  * [Space Complexity](#space-complexity)
+  * [Common Problem-Solving Patterns](#common-problem-solving-patterns)
+    + [Frequency Counter](#frequency-counter)
+  * [Multiple Pointers](#multiple-pointers)
+    + [Sliding Window](#sliding-window)
+    + [Divide-and-Conquer](#divide-and-conquer)
+    + [Recursion](#recursion)
+      - [Understanding the Call Stack](#understanding-the-call-stack)
+  * [Searching Algorithms](#searching-algorithms)
+    + [Linear Search](#linear-search)
+  * [Sorting Algorithms](#sorting-algorithms)
+    + [Bubble Sort](#bubble-sort)
+    + [Selection Sort](#selection-sort)
+    + [Insertion Sort](#insertion-sort)
+    + [Merge Sort](#merge-sort)
+    + [Quick Sort](#quick-sort)
+    + [Radix Sort](#radix-sort)
+  * [Data Structure](#data-structure)
+    + [complexity comparison](#complexity-comparison)
+  * [Singly Linked list](#singly-linked-list)
+  * [Doubly Linked List](#doubly-linked-list)
+  * [Stacks](#stacks)
+  * [Queue](#queue)
+  * [Tree](#tree)
+    + [terminology](#terminology)
+    + [binary search tree](#binary-search-tree)
+    + [tree traversal](#tree-traversal)
+    + [traversal comparison](#traversal-comparison)
+  * [Binary heaps](#binary-heaps)
+    + [terminology](#terminology-1)
+    + [binary heap parent and child relations](#binary-heap-parent-and-child-relations)
+  * [Priority Queue](#priority-queue)
+  * [Hash Tables](#hash-tables)
+    + [collisions](#collisions)
+  * [Graphs](#graphs)
+    + [terminology](#terminology-2)
+    + [adjacency matrix](#adjacency-matrix)
+  * [adjacency list](#adjacency-list)
+  * [adjacency list vs adjacency matrix](#adjacency-list-vs-adjacency-matrix)
+    + [graph(adjacency list)](#graphadjacency-list)
+  * [Graph Traversal](#graph-traversal)
+    + [depth first traversal and breadth-first traversal in the the graph](#depth-first-traversal-and-breadth-first-traversal-in-the-the-graph)
+  * [Dijkstra's Shortest path first Algorithms](#dijkstras-shortest-path-first-algorithms)
+  * [Dynamic Programming (light introduction)](#dynamic-programming-light-introduction)
+    + [example Fibonacci sequence](#example-fibonacci-sequence)
+    + [memorization](#memorization)
+    + [tabulation](#tabulation)
+  * [Interesting Stuff](#interesting-stuff)
+  * [String](#string)
+    + [string pattern matching](#string-pattern-matching)
+  * [Array](#array)
+    + [Object](#object)
+    + [Map](#map)
+  * [Math](#math)
+
+<!-- TOC end -->
+
+<!-- TOC --><a name="algorithms-and-data-structures-cheat-sheet"></a>
 # Algorithms and Data Structures Cheat Sheet
 
 An algorithm is a set of steps for solving a specific problem, while a data structure is a method for organizing and storing data in a computer so that it can be accessed and modified efficiently. This cheat sheet provides a summary of key concepts and techniques in algorithms and data structures, including big O notation, common data structures such as arrays, linked lists, and hash tables, and popular algorithms such as search and sorting algorithms. Understanding these concepts is essential for designing and implementing efficient software solutions.
 
+<!-- TOC --><a name="big-o-notation"></a>
 ## Big O Notation
 
 Big O notation is a way to describe the efficiency or complexity of an algorithm. It provides a rough estimate of how long an algorithm will take to run, based on the size of the input data.
@@ -115,6 +179,7 @@ function logAtMostFive(n: number): void {
 
 The time complexity of the `logAtMostFive` function is O(1). This is because the function has a loop that iterates over a maximum of 5 values, regardless of the value of n. The time it takes to complete the function does not depend on the value of n.
 
+<!-- TOC --><a name="big-o-notation-for-some-of-the-objects-and-arrays-methods"></a>
 ## Big O Notation for some of the Objects and Arrays methods
 
 For the Objects, the `Object.keys`, `Object.values`, and `Object.entries` methods are used to retrieve the keys, values, and key-value pairs, respectively, of the object. These methods have a space complexity of O(n) because they iterate over all the properties of the object and create a new array that is the same size as the number of properties in the object.
@@ -144,6 +209,7 @@ array.unshift(0);
 console.timeEnd("unshift"); // takes a longer amount of time
 ```
 
+<!-- TOC --><a name="space-complexity"></a>
 ## Space Complexity
 
 In computer science, space complexity refers to the amount of memory that an algorithm requires to run to completion. It is a measure of the resources that an algorithm consumes, and it is typically expressed in terms of the size of the input to the algorithm.
@@ -186,6 +252,7 @@ function double(arr: number[]): number[] {
 
 The space complexity of the function, `double`, is O(n), because it creates a new array (`newArr`) and stores one element in the array for each element in the input array `arr`. The size of the input (the length of the array `arr`) directly determines the number of elements that are stored in the new array, so the space complexity is proportional to the size of the input.
 
+<!-- TOC --><a name="common-problem-solving-patterns"></a>
 ## Common Problem-Solving Patterns
 
 Some common problem-solving patterns are:
@@ -198,6 +265,7 @@ Some common problem-solving patterns are:
 
 These patterns involve creating and manipulating data structures and algorithms to solve problems more efficiently and effectively. They are often used in interviews and technical assessments as a way to test a candidate's problem-solving skills.
 
+<!-- TOC --><a name="frequency-counter"></a>
 ### Frequency Counter
 
 The frequency counter is a technique used in algorithm design to count the frequency of elements in a data structure. It is often used to optimize the performance of an algorithm by avoiding the use of costly operations such as searching or sorting.
@@ -376,6 +444,7 @@ function validAnagram(str1: string, str2: string): boolean {
 
 The function also has a time complexity of O(n). This is because it includes two loops that each iterate through the characters in the strings. The `frequencyCount` object is built in O(n) time by iterating through `str1` and adding each character to the object. Then, the function iterates through `str2` and decrements the count for each character in the `frequencyCount` object. Since the function only iterates through the characters in `str2`, the time complexity is O(n).
 
+<!-- TOC --><a name="multiple-pointers"></a>
 ## Multiple Pointers
 
 The multiple pointers pattern involves using two or more pointers to solve a problem by traversing a data structure, such as an array or a linked list. The pointers typically move toward each other or towards the middle of the data structure, and the algorithm performs some operation on the values at the pointers' current positions.
@@ -508,6 +577,7 @@ The time complexity of the `countUniqueValues` function is O(n), where n is the 
 
 The function performs a single loop through the array, and the time taken to iterate through the array is directly proportional to the size of the array. Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
+<!-- TOC --><a name="sliding-window"></a>
 ### Sliding Window
 
 The sliding window pattern is a technique that involves iterating through an array and maintaining a "window" of elements that meet certain conditions. The window is typically defined by two pointers, one at the start of the window and one at the end.
@@ -601,6 +671,7 @@ The function performs a single loop through the array, and the time taken to ite
 
 Therefore, the time complexity of the function is linear with respect to the size of the input array.
 
+<!-- TOC --><a name="divide-and-conquer"></a>
 ### Divide-and-Conquer
 
 The divide-and-conquer pattern is a common algorithmic technique used to solve problems by dividing them into smaller subproblems, solving those subproblems, and then combining the solutions to the subproblems to solve the original problem.
@@ -687,6 +758,7 @@ In the worst-case scenario, where the value being searched for is not present in
 
 Overall, the binary search algorithm is a very efficient algorithm for searching through sorted arrays and is much faster than a linear search for larger arrays.
 
+<!-- TOC --><a name="recursion"></a>
 ### Recursion
 
 Recursion is a technique in which a function calls itself repeatedly until a certain condition is met. It can be a useful way to solve problems that can be divided into smaller subproblems, or that involve repeating a process with slightly different inputs each time.
@@ -713,6 +785,7 @@ The recursion continues until the base case is reached, at which point the funct
 
 For example, if we call `factorial(5)`, the function will call itself with the input 4, then with the input 3, then 2, and finally 1. When the input is 1, the base case is reached and the function returns 1, which is then multiplied by 2 and returned, which is then multiplied by 3 and returned, and so on, until the final result of 120 is returned.
 
+<!-- TOC --><a name="understanding-the-call-stack"></a>
 #### Understanding the Call Stack
 
 The call stack is a data structure that keeps track of the functions that are currently executing. It is used to store the execution context of each function, which includes the local variables and the current position in the code.
@@ -807,6 +880,7 @@ function collectOdd(arr: number[]): number[] {
 
 This function has a time complexity of O(n), where n is the length of the input array. This is because the function processes each element of the array once, and the time taken to do so is constant. The function also makes one recursive call for each element in the array, but since the size of the input array decreases by 1 on each call, the total number of recursive calls is also O(n). Therefore, the overall time complexity of the function is O(n).
 
+<!-- TOC --><a name="searching-algorithms"></a>
 ## Searching Algorithms
 
 Searching algorithms are techniques for finding a particular item in a collection of items. They are an important part of computer science and are used to perform a wide variety of tasks, such as finding a specific file on a computer, searching for information on the internet, or locating a particular piece of data in a database.
@@ -815,6 +889,7 @@ There are several different types of search algorithms, including linear search,
 
 The efficiency of a search algorithm depends on the structure of the data being searched and the specific search method being used. For example, linear search is less efficient than binary search when searching through a large list of items, but it may be more efficient when searching through a small list or when the items are not in any particular order.
 
+<!-- TOC --><a name="linear-search"></a>
 ### Linear Search
 
 ```ts
@@ -976,6 +1051,7 @@ function computePrefixTable(pattern: string): number[] {
 
 The KMP algorithm uses a prefix table to keep track of the longest proper prefix that is also a suffix of the pattern. This allows it to efficiently skip over portions of the pattern when searching for a match in the long string, which reduces the time complexity from O(n \* m) to O(n + m).
 
+<!-- TOC --><a name="sorting-algorithms"></a>
 ## Sorting Algorithms
 
 Sorting algorithms are a set of instructions that take in a list of items and arrange them in a particular order. The order can be ascending (smallest to largest), descending (largest to smallest), or some other predetermined order. Sorting algorithms are used in many different contexts, including data analysis, computer science, and everyday life. Some common examples of sorting algorithms include bubble sort, insertion sort, selection sort, merge sort, and quick sort. These algorithms differ in terms of their efficiency and the amount of work they do, and they have different use cases depending on the needs of the situation. In general, sorting algorithms are an important tool for organizing and making sense of data.
@@ -1005,6 +1081,7 @@ Following is a table of the most common sorting algorithms and their time comple
 
 It's worth noting that these time complexities are just rough estimates and can vary depending on the specific implementation of the algorithm. Additionally, other factors can affect the running time of a sorting algorithm, such as the speed of the computer it is running on and the specific characteristics of the input data.
 
+<!-- TOC --><a name="bubble-sort"></a>
 ### Bubble Sort
 
 Bubble sort is a simple sorting algorithm that repeatedly iterates through a list of items, compares adjacent items, and swaps them if they are in the wrong order.
@@ -1036,6 +1113,7 @@ In this implementation, the function takes in an array of numbers and uses two n
 
 Bubble sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is simple to implement and can be a good choice for small lists.
 
+<!-- TOC --><a name="selection-sort"></a>
 ### Selection Sort
 
 Selection sort is a sorting algorithm that works by repeatedly finding the minimum element in a list and swapping it with the first element in the unsorted portion of the list.
@@ -1069,6 +1147,7 @@ In this implementation, the function takes in an array of numbers and uses two n
 
 Selection sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is relatively simple to implement and can be a good choice for small lists or lists that are almost sorted.
 
+<!-- TOC --><a name="insertion-sort"></a>
 ### Insertion Sort
 
 Insertion sort is a sorting algorithm that works by iterating through a list of items, taking each element in turn and inserting it into its correct position in the list.
@@ -1099,6 +1178,7 @@ In this implementation, the function takes in an array of numbers and uses a for
 
 Insertion sort has a time complexity of O(n^2), which means that it is not very efficient for large lists. However, it is relatively simple to implement and can be a good choice for small lists or lists that are almost sorted.
 
+<!-- TOC --><a name="merge-sort"></a>
 ### Merge Sort
 
 Merge sort is a sorting algorithm that works by dividing a list of items into smaller sublists, sorting the sublists, and then merging the sorted sublists back together to form a sorted list.
@@ -1144,6 +1224,7 @@ In this implementation, the `mergeSort` function takes in an array of numbers an
 
 Merge sort has a time complexity of O(nlogn), which means that it is more efficient than some other sorting algorithms for large lists. It is also relatively simple to implement and is a good choice for many different situations.
 
+<!-- TOC --><a name="quick-sort"></a>
 ### Quick Sort
 
 Quick sort is a sorting algorithm that works by selecting a "pivot" element from the list and partitioning the other elements into two sublists based on whether they are less than or greater than the pivot. The sublists are then sorted recursively and the results are merged back together to form a sorted list.
@@ -1192,6 +1273,7 @@ In this implementation, the `quickSort` function takes in an array of numbers an
 
 Quick sort has a time complexity of O(nlogn) on average, which means that it is generally more efficient than some other sorting algorithms for large lists. However, it can have a time complexity of O(n^2) in the worst case, which makes it less efficient than some other algorithms in certain situations.
 
+<!-- TOC --><a name="radix-sort"></a>
 ### Radix Sort
 
 Radix sort is a sorting algorithm that works by sorting the elements of a list based on the digits of their numeric keys, starting with the least significant digit and working toward the most significant digit.
@@ -1227,8 +1309,10 @@ In this implementation, the `radixSort` function takes in an array of numbers an
 
 Radix sort has a time complexity of O(kn) where k is the number of digits in the largest element and n is the number of elements in the list. This means that it can be more efficient than some other sorting algorithms for large lists with a small range of values. However, it is not suitable for lists with elements that have a large number of digits.
 
+<!-- TOC --><a name="data-structure"></a>
 ## Data Structure
 
+<!-- TOC --><a name="complexity-comparison"></a>
 ### complexity comparison
 
 |   DataStructure    | Insertion |                         Removal                          |                 Searching                 | Access |
@@ -1241,6 +1325,7 @@ Radix sort has a time complexity of O(kn) where k is the number of digits in the
 |    Binary Heap     | O( Log n) |                        O( Log n)                         |                  O( n )                   |   -    |
 |    Hash Tables     |  O( 1 )   |                          O( 1 )                          |                     -                     | O( 1 ) |
 
+<!-- TOC --><a name="singly-linked-list"></a>
 ## Singly Linked list
 
 ```typescript
@@ -1411,6 +1496,7 @@ class SinglyLinkedList {
 }
 ```
 
+<!-- TOC --><a name="doubly-linked-list"></a>
 ## Doubly Linked List
 
 ```typescript
@@ -1592,6 +1678,7 @@ class DoublyLinkedList {
 }
 ```
 
+<!-- TOC --><a name="stacks"></a>
 ## Stacks
 
 LIFO
@@ -1650,6 +1737,7 @@ class Stack {
 }
 ```
 
+<!-- TOC --><a name="queue"></a>
 ## Queue
 
 FIFO
@@ -1710,8 +1798,10 @@ class Queue {
 }
 ```
 
+<!-- TOC --><a name="tree"></a>
 ## Tree
 
+<!-- TOC --><a name="terminology"></a>
 ### terminology
 
 -   root: top node of the tree
@@ -1721,6 +1811,7 @@ class Queue {
 -   leaf: a child with no children
 -   edge: connection from two-node
 
+<!-- TOC --><a name="binary-search-tree"></a>
 ### binary search tree
 
 -   every parent node has at most **two** children
@@ -1792,6 +1883,7 @@ class BinarySearchTree {
 }
 ```
 
+<!-- TOC --><a name="tree-traversal"></a>
 ### tree traversal
 
 there are two main strategies to traversal a tree: **Breadth-first-search** and **Depth-first-search**
@@ -1939,6 +2031,7 @@ class BinarySearchTree {
 }
 ```
 
+<!-- TOC --><a name="traversal-comparison"></a>
 ### traversal comparison
 
 **depth-first** _vs_ **breadth-first** : they both **timeComplexity is same** but **spaceComplexity is different** if we got **a wide tree** like this:
@@ -1959,8 +2052,10 @@ if we got **a depth long tree** like this:
 preOrder is useful when we want a clone of the tree.
 inOrder is useful when we want data so that it's stored in the tree.
 
+<!-- TOC --><a name="binary-heaps"></a>
 ## Binary heaps
 
+<!-- TOC --><a name="terminology-1"></a>
 ### terminology
 
 -   a binary heap is as compact as possible (all the children of each node are as full as they can be and left children and filled out first)
@@ -1974,6 +2069,7 @@ inOrder is useful when we want data so that it's stored in the tree.
 
 -   **child** nodes are always greater than **parent** nodes but there are no guarantees between sibling
 
+<!-- TOC --><a name="binary-heap-parent-and-child-relations"></a>
 ### binary heap parent and child relations
 
 ![](./assets/binaryHeapsParentAndChildRelation.jpg)
@@ -2073,6 +2169,7 @@ class MaxBinaryHeap {
 }
 ```
 
+<!-- TOC --><a name="priority-queue"></a>
 ## Priority Queue
 
 A data structure which every element has a priority.
@@ -2190,10 +2287,12 @@ class PriorityQueue {
 }
 ```
 
+<!-- TOC --><a name="hash-tables"></a>
 ## Hash Tables
 
 Hash tables are a collection of key-value pairs
 
+<!-- TOC --><a name="collisions"></a>
 ### collisions
 
 There is a possibility for handle collisions in hash tables :
@@ -2273,10 +2372,12 @@ class HashTable {
 }
 ```
 
+<!-- TOC --><a name="graphs"></a>
 ## Graphs
 
 A graph data structure consists of a finite (and possibly mutable) set of vertices or nodes or points, together with a set of unordered pairs of these vertices for an undirected graph or a set of ordered pairs for a directed graph.
 
+<!-- TOC --><a name="terminology-2"></a>
 ### terminology
 
 -   vertex :node
@@ -2291,14 +2392,17 @@ A graph data structure consists of a finite (and possibly mutable) set of vertic
     in a weighted graph,depth-first there is a weight associated with edges but in an unweighted graph no weight assigned to edges
     ![](./assets/3.-Weithened-Graph.png)
 
+<!-- TOC --><a name="adjacency-matrix"></a>
 ### adjacency matrix
 
 ![](./assets/GahiR.jpg)
 
+<!-- TOC --><a name="adjacency-list"></a>
 ## adjacency list
 
 ![](./assets/268857bd-bb32-4fa5-88c9-66d7787952e9.png)
 
+<!-- TOC --><a name="adjacency-list-vs-adjacency-matrix"></a>
 ## adjacency list vs adjacency matrix
 
 |   Operation   | Adjacency List | Adjacency Matrix |
@@ -2319,6 +2423,7 @@ A graph data structure consists of a finite (and possibly mutable) set of vertic
 -   **Adjacency List** are **faster to iterate** over edges.
 -   **Adjacency Matrix** are **faster to** finding a specific edge.
 
+<!-- TOC --><a name="graphadjacency-list"></a>
 ### graph(adjacency list)
 
 ```typescript
@@ -2377,8 +2482,10 @@ class Graph {
 }
 ```
 
+<!-- TOC --><a name="graph-traversal"></a>
 ## Graph Traversal
 
+<!-- TOC --><a name="depth-first-traversal-and-breadth-first-traversal-in-the-the-graph"></a>
 ### depth first traversal and breadth-first traversal in the the graph
 
 ```typescript
@@ -2505,6 +2612,7 @@ class Graph {
 }
 ```
 
+<!-- TOC --><a name="dijkstras-shortest-path-first-algorithms"></a>
 ## Dijkstra's Shortest path first Algorithms
 
 Finding shortest path between two vertices in a **weighted graph**.
@@ -2635,11 +2743,13 @@ class WeightedGraph {
 }
 ```
 
+<!-- TOC --><a name="dynamic-programming-light-introduction"></a>
 ## Dynamic Programming (light introduction)
 
 It's a method for solving a complex problems by breaking it down into a collection of simpler problems, solving their subProblems **once** and **storing** their solutions.
 _technically it using knowledge of last problems to solve next by memorization_
 
+<!-- TOC --><a name="example-fibonacci-sequence"></a>
 ### example Fibonacci sequence
 
 Let's implement it without dynamic programming:without dynamic programming:
@@ -2659,6 +2769,7 @@ function fib(n: number): number {
 
 As you see we calculate f(5) two times with current implementation.
 
+<!-- TOC --><a name="memorization"></a>
 ### memorization
 
 Storing the expensive function class results and returning the cached result when the same inputs occur again.
@@ -2679,6 +2790,7 @@ function fib(n: number, memo: number[] = []): number {
 fib(10000); // Maximum callStack exceeded
 ```
 
+<!-- TOC --><a name="tabulation"></a>
 ### tabulation
 
 ```typescript
@@ -2698,6 +2810,7 @@ function fib(n: number): number {
 fib(10000); // Infinity
 ```
 
+<!-- TOC --><a name="interesting-stuff"></a>
 ## Interesting Stuff
 
 ```typescript
@@ -2709,6 +2822,7 @@ console.log(!!0); // false
 (newNode.prev = prevNode), (newNode.next = nextNode);
 ```
 
+<!-- TOC --><a name="string"></a>
 ## String
 
 ```typescript
@@ -2717,6 +2831,7 @@ str.search('lo') || .indexOf('lo') // 3
 str.includes('lo') // true
 ```
 
+<!-- TOC --><a name="string-pattern-matching"></a>
 ### string pattern matching
 
 ```typescript
@@ -2767,6 +2882,7 @@ function isAlphaNumeric(char: string) {
 }
 ```
 
+<!-- TOC --><a name="array"></a>
 ## Array
 
 ```typescript
@@ -2787,6 +2903,7 @@ console.log(p); // "F"
 ["a", "b"].reverse(); // ['b', 'a']
 ```
 
+<!-- TOC --><a name="object"></a>
 ### Object
 
 ```typescript
@@ -2794,6 +2911,7 @@ delete this._adjacencyList[vertex]; // delete key and value from object
 delete this._adjacencyList.vertex;
 ```
 
+<!-- TOC --><a name="map"></a>
 ### Map
 
 ```typescript
@@ -2828,6 +2946,7 @@ const arr = [...map]; // :[ [key, value] ]
 */
 ```
 
+<!-- TOC --><a name="math"></a>
 ## Math
 
 ```typescript
