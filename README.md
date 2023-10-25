@@ -419,9 +419,7 @@ function validAnagram(str1: string, str2: string): boolean {
     for (let i = 0; i < str1.length; i++) {
         const currentElement = str1[i];
         // Increment the frequency count for the current character in the frequency count object
-        frequencyCount[currentElement]
-            ? (frequencyCount[currentElement] += 1)
-            : (frequencyCount[currentElement] = 1);
+        frequencyCount[currentElement] = (frequencyCount[currentElement] || 0) + 1;
     }
 
     // Iterate through each character in str2
