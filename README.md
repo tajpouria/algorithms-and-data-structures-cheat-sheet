@@ -243,7 +243,7 @@ The space complexity of the function, `sum`, is O(1) because it only uses a sing
 function double(arr: number[]): number[] {
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
-        array.push(arr[i] * 2);
+        newArr.push(arr[i] * 2);
     }
 
     return newArr;
