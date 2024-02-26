@@ -2953,4 +2953,7 @@ Math.abs(-5); // 5
 Math.log10(100); // 10
 Math.max(...[1, 2, 3]); // 3
 Math.min(...[1, 2, 3]); // 1
+Math.sqrt(4); // 2
+Math.ceil(1.2); // 2 (1.2 is rounded up to nearest value 2)
+Math.floor(1.2); // 1 (1.2 is rounded down to nearest value 1)
 ```
