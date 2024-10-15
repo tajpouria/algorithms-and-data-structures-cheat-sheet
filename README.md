@@ -871,7 +871,7 @@ function collectOdd(arr: number[]): number[] {
     }
 
     // recursive case: call the function with the result array concatenated with the rest of the input array
-    result = collectOdd(result.concat(arr.slice(1)));
+    result = result.concat(collectOdd(arr.slice(1)));
     return result;
 }
 ```
