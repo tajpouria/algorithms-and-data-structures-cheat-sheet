@@ -857,10 +857,8 @@ Each time the `factorial` function is called, a new execution context is added t
 Write a function called `collectOdd` that takes in an array of numbers and returns a new array containing only the odd numbers from the input array. The function should use recursion to achieve this, and should not modify the original input array.
 
 ```ts
-function collectOdd(arr: number[]): number[] {
-    let result = [];
-
-    // base case: if the input array is empty, return the empty result array
+function collectOdd(arr: number[], result: number[] = []): number[] {
+    // base case: if the input array is empty, return the accumulated result array
     if (!arr.length) {
         return result;
     }
@@ -870,9 +868,8 @@ function collectOdd(arr: number[]): number[] {
         result.push(arr[0]);
     }
 
-    // recursive case: call the function with the result array concatenated with the rest of the input array
-    result = result.concat(collectOdd(arr.slice(1)));
-    return result;
+    // recursive case: call the function with the rest of the input array and the accumulated result
+    return collectOdd(arr.slice(1), result);
 }
 ```
 
