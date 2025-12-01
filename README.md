@@ -48,7 +48,7 @@
   * [Dijkstra's Shortest path first Algorithms](#dijkstras-shortest-path-first-algorithms)
   * [Dynamic Programming (light introduction)](#dynamic-programming-light-introduction)
     + [example Fibonacci sequence](#example-fibonacci-sequence)
-    + [memorization](#memorization)
+    + [memoization](#memoization)
     + [tabulation](#tabulation)
   * [Interesting Stuff](#interesting-stuff)
   * [String](#string)
@@ -2742,7 +2742,7 @@ class WeightedGraph {
 ## Dynamic Programming (light introduction)
 
 It's a method for solving a complex problems by breaking it down into a collection of simpler problems, solving their subProblems **once** and **storing** their solutions.
-_technically it using knowledge of last problems to solve next by memorization_
+_technically it using knowledge of last problems to solve next by memoization_
 
 <!-- TOC --><a name="example-fibonacci-sequence"></a>
 ### example Fibonacci sequence
@@ -2764,8 +2764,8 @@ function fib(n: number): number {
 
 As you see we calculate f(5) two times with current implementation.
 
-<!-- TOC --><a name="memorization"></a>
-### memorization
+<!-- TOC --><a name="memoization"></a>
+### memoization
 
 Storing the expensive function class results and returning the cached result when the same inputs occur again.
 
